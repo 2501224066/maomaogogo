@@ -1,0 +1,56 @@
+{{ if .LoginStatus }}
+
+<div class="panel">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <img width="100%" style="height:75px" class="img-responsive border-radius-2px"
+                    src="{{ .User.AvatarUrl }}">
+            </div>
+            <div class="col-md-8">
+                <h5 style="margin-bottom: 10px;color: blue">
+                    <i class="fa fa-wheelchair-alt" data-toggle="tooltip" data-placement="top" title="身残志坚"></i>
+                </h5>
+                <p>{{ .User.InShort }}</p>
+            </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+            <a class="hover-blue gray" href="/create_article">
+                <div class="col-md-4 text-center">
+                    <h4><i class="fa fa-file-text"></i></h4>
+                    <p>写文章</p>
+                </div>
+            </a>
+            <a class="hover-blue gray">
+                <div class="col-md-4 text-center">
+                    <h4><i class="fa fa-question-circle"></i></h4>
+                    <p>问问题</p>
+                </div>
+            </a>
+            <a class="hover-blue gray">
+                <div class="col-md-4 text-center">
+                    <h4><i class="fa fa-sign-language"></i></h4>
+                    <p>谈知识</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+{{ else }}
+
+<div class="panel">
+    <div class="panel-body">
+        <h4>MaomaoGogo</h4>
+        <p class='gray'> 是一个关于宠物和互相帮助的地方</p>
+        <hr>
+        <p class="text-center">
+            <a href="/register" class="btn btn-default btn-xs" style="font-size: 15px;font-weight: 600"> 现在注册
+            </a>
+        </p>
+        <div class="text-center">
+            已注册用户请 <a href="/login">登录</a>
+        </div>
+    </div>
+</div>
+{{ end }}

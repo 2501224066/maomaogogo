@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="col-md-12" id="left">
+        <div class="panel">
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                    <li><a href="/">主页</a></li>
+                    <li>账号注册</li>
+                </ol>
+                <div class="row">
+                    <form action="/register" method="POST" class="col-md-5 col-md-offset-1">
+                        {{ .xsrfdata }}
+                        <div class="form-group">
+                            <label for="l1"><i class="fa fa-eercast fa-fw"></i>昵称</label>
+                            <input type="text" name="nickname" class="form-control" id="l1" maxlength="10"
+                                placeholder="Nickname">
+                        </div>
+                        <div class="form-group">
+                            <label for="l2"><i class="fa fa-envelope-o fa-fw"></i> 邮箱</label>
+                            <input type="email" name="email" class="form-control" id="l2" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="l3"><i class="fa fa-key fa-fw"></i>密码</label>
+                            <input type="password" name="password" class="form-control" id="l3" maxlength="16"
+                                placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="l4"><i class="fa fa-key fa-fw"></i>重复密码</label>
+                            <input type="password" name="repeat_password" class="form-control" id="l4" maxlength="16"
+                                placeholder="RepeatPassword">
+                        </div>
+                        <div class="form-group">
+                            <label for="l5"><i class="fa fa-leaf fa-fw"></i>验证码</label>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <input class="form-control" type="text" name="code" id="l5" maxlength="6"
+                                        placeholder="Code">
+                                </div>
+                                <div class="col-md-4 text-right"><a id="get_code" class="btn btn-default">获取验证码</a>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary btn-block">提交</button>
+                    </form>
+                    <div class="col-md-6 text-center">
+                        <img src="/static/images/cat_2.png" style="height: 300px">
+                        <h4>欢迎来到MaomaoGogo</h4>
+                        <div>我们构建了一个宠物社区，以帮助大家交流</div>
+                        <div>祝您在此获得快乐与帮助! 🌝</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('form').bind('submit', function () {
+        var tmp = ajaxSubmit(this, function () {
+            if (tmp.responseJSON.status) {
+                $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + tmp.responseJSON.msg + '</div>')
+                window.setTimeout(function () {
+                    window.location.href = "/login"
+                }, 1000);
+            } else {
+                $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + tmp.responseJSON.msg + '</div>')
+            }
+        })
+        return false;
+    })
+
+    // 获取验证码
+    $("#get_code").click(function () {
+        var email = $("input[type='email']").val();
+        if (!email) {
+            $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + '邮箱未填写' + '</div>')
+            return false;
+        }
+
+        $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + '稍等片刻，邮件发送中...' + '</div>')
+        var formData = new FormData();
+        formData.append('email', email);
+        formData.append('_xsrf', $('input:hidden').val());
+        $.ajax({
+            url: '/send_email/register',
+            type: 'POST',
+            cache: false,
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (res) {
+                if (res.status) {
+                    $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + res.msg + '</div>')
+                } else {
+                    $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + res.msg + '</div>')
+                }
+            }
+        })
+    })
+</script>

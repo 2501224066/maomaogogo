@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-md-12" id="left">
+        <div class="panel">
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                    <li><a href="/">主页</a></li>
+                    <li>账号登录</li>
+                </ol>
+                <div class="row">
+                    <div class="col-md-6 text-center hidden-xs">
+                        <img src="/static/images/cat_1.png" style="height: 300px">
+                    </div>
+
+                    <form action="/login" method="POST" class="col-md-5 col-sm-12" style="margin-top: 40px">
+                        {{ .xsrfdata }}
+                        <div class="form-group">
+                            <label for="l2"><i class="fa fa-envelope-o fa-fw"></i>邮箱</label>
+                            <input type="email" name="email" class="form-control" id="l2" maxlength="50"
+                                placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="l3"><i class="fa fa-key fa-fw"></i>密码</label>
+                            <input type="password" name="password" class="form-control" id="l3" maxlength="16"
+                                placeholder="Password">
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary btn-block">提交</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('form').bind('submit', function () {
+        var tmp = ajaxSubmit(this, function () {
+            if (tmp.responseJSON.status) {
+                $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + tmp.responseJSON.msg + '</div>')
+                window.setTimeout(function () {
+                    window.location.href = "/"
+                }, 1000);
+            } else {
+                $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + tmp.responseJSON.msg + '</div>')
+            }
+        })
+        return false;
+    })
+</script>
