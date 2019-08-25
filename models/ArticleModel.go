@@ -5,6 +5,9 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/astaxie/beego"
+
+	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -36,6 +39,26 @@ func ArticleInsert(uid int, title, content, node, tag string) bool {
 	_, err := O.Insert(&article)
 	if err != nil {
 		fmt.Println(err)
+		return false
+	}
+
+	return true
+}
+
+func ArticleUpdate(ArticleId int, title, content, node, tag string) bool {
+	// 去除两端空格
+	strings.TrimSpace(title)
+	strings.TrimSpace(content)
+	strings.TrimSpace(tag)
+
+	_, err := O.QueryTable(new(Article)).Filter("article_id", ArticleId).Update(orm.Params{
+		"title":     title,
+		"content":   content,
+		"face_img":  GetFaceImg(content),
+		"face_text": GetFaceText(content),
+		"node":      node,
+		"tag":       tag})
+	if err != nil {
 		return false
 	}
 
@@ -78,16 +101,46 @@ func GetFaceText(content string) string {
 	return content
 }
 
-func GetArticleList() []Article {
-	var article []Article
-	O.QueryTable(new(Article)).Filter("status", 1).OrderBy("-created_at").RelatedSel().All(&article)
+// 文章总数量
+func GetArticleCount(nodeId, uid int) int64 {
+	query := O.QueryTable(new(Article))
 
-	return article
+	if nodeId != 0 {
+		var node Node
+		O.QueryTable(new(Node)).Filter("node_id", nodeId).One(&node)
+		query = query.Filter("node", node.Name)
+	}
+
+	if uid != 0 {
+		query = query.Filter("User", uid)
+	}
+
+	count, _ := query.Filter("status", 1).Count()
+	return count
 }
 
-func GetSelfArticleList(uid int) []Article {
+// 获取文章
+func GetArticleList(nodeId, uid, p int) []Article {
 	var article []Article
-	O.QueryTable(new(Article)).Filter("status", 1).Filter("User", uid).OrderBy("-created_at").RelatedSel().All(&article)
+	query := O.QueryTable(new(Article))
+
+	if nodeId != 0 {
+		var node Node
+		O.QueryTable(new(Node)).Filter("node_id", nodeId).One(&node)
+		query = query.Filter("node", node.Name)
+	}
+
+	if uid != 0 {
+		query = query.Filter("User", uid)
+	}
+
+	if p != 0 {
+		pageNum, _ := beego.AppConfig.Int("page::num")
+		offset := pageNum * (p - 1)
+		query = query.Limit(pageNum, offset)
+	}
+
+	query.Filter("status", 1).OrderBy("-created_at").RelatedSel().All(&article)
 
 	return article
 }

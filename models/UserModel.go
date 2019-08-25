@@ -12,7 +12,7 @@ import (
 func UserRead(uid int) User {
 	user := User{Uid: uid}
 	O.Read(&user)
-	
+
 	return user
 }
 
@@ -50,7 +50,7 @@ func UserUpdate(uid int, nickname, in_short, sex, birthday, introduce string) bo
 	local, _ := time.LoadLocation("Local")
 	birthdayTime, _ := time.ParseInLocation("2006-01-02", birthday, local)
 
-	_, err := O.QueryTable("user").Filter("uid", uid).Update(orm.Params{
+	_, err := O.QueryTable(new(User)).Filter("uid", uid).Update(orm.Params{
 		"nickname":  nickname,
 		"in_short":  in_short,
 		"sex":       sex,
@@ -65,8 +65,19 @@ func UserUpdate(uid int, nickname, in_short, sex, birthday, introduce string) bo
 
 // 修改头像
 func AvatarUrlUpdate(uid int, avatar_url string) bool {
-	_, err := O.QueryTable("user").Filter("uid", uid).Update(orm.Params{
+	_, err := O.QueryTable(new(User)).Filter("uid", uid).Update(orm.Params{
 		"avatar_url": avatar_url})
+	if err != nil {
+		return false
+	}
+
+	return true
+}
+
+// 修改打赏二维码
+func QrImgUpdate(uid int, qr_img string) bool {
+	_, err := O.QueryTable(new(User)).Filter("uid", uid).Update(orm.Params{
+		"qr_img": qr_img})
 	if err != nil {
 		return false
 	}
@@ -76,7 +87,7 @@ func AvatarUrlUpdate(uid int, avatar_url string) bool {
 
 // 查询邮箱数量
 func GetEmailCount(email string) int64 {
-	cnt, _ := O.QueryTable("user").Filter("email", email).Count()
+	cnt, _ := O.QueryTable(new(User)).Filter("email", email).Count()
 
 	return cnt
 }
@@ -84,7 +95,7 @@ func GetEmailCount(email string) int64 {
 // 检查登录
 func CheckLogin(email, password string) (bool, int) {
 	var user User
-	err := O.QueryTable("user").Filter("email", email).One(&user)
+	err := O.QueryTable(new(User)).Filter("email", email).One(&user)
 	if err == orm.ErrNoRows {
 		return false, 0
 	}

@@ -4,18 +4,20 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-4">
-                <img width="100%" style="height:75px" class="img-responsive border-radius-2px"
-                    src="{{ .User.AvatarUrl }}">
+                <a href="/user_read">
+                    <img width="100%" style="height:75px" class="img-responsive border-radius-2px"
+                        src="{{ .User.AvatarUrl }}">
+                </a>
             </div>
             <div class="col-md-8">
-                <h5 style="margin-bottom: 10px;color: blue">
-                    <i class="fa fa-wheelchair-alt" data-toggle="tooltip" data-placement="top" title="身残志坚"></i>
-                </h5>
+                <a href="/user_read" style="color: #333">
+                    <p style="font-size:18px;font-weight:600">{{ .User.Nickname }}</p>
+                </a>
                 <p>{{ .User.InShort }}</p>
             </div>
         </div>
         <div class="row" style="margin-top:10px;">
-            <a class="hover-blue gray" href="/create_article">
+            <a class="hover-blue gray" href="/article_create">
                 <div class="col-md-4 text-center">
                     <h4><i class="fa fa-file-text"></i></h4>
                     <p>写文章</p>

@@ -3,7 +3,7 @@
     <!--左侧start-->
     <div class="col-md-8 com-sm-12" id="left">
         <div class="panel">
-            <div class="panel-body">
+            <div class="panel-body" style="margin-bottom: -31px;">
                 {{ range  .ArticleList}}
                 <div>
                     <h4 class="hover-blue" style="font-weight: 600">
@@ -19,14 +19,14 @@
                         <div class="col-md-8 col-xs-8" style="padding-left: 0;padding-right: 0;">
                             <div style="font-size: 15px;line-height: 26px;">
                                 {{ .User.Nickname }}：{{ substr .FaceText 0 80 }}...
-                                <a href="/read_article/{{ .ArticleId }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
+                                <a href="/article_read/{{ .ArticleId }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
                             </div>
                         </div>
                         {{ else }}
                         <div class="col-md-12 col-xs-12" style="padding-left: 0;">
                             <div style="font-size: 15px;line-height: 26px;">
                                 {{ .User.Nickname }}：{{ substr .FaceText 0 64 }}...
-                                <a href="/read_article/{{ .ArticleId }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
+                                <a href="/article_read/{{ .ArticleId }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
                             </div>
                         </div>
                         {{ end }}
@@ -42,35 +42,14 @@
                             <span></span>{{ .ReadNum }} 阅读</span>
                             &nbsp;<span class="snow">•</span>&nbsp;
                             <span>{{ .LikeNum }} 柠檬</span>
-                            &nbsp;<span class="snow">•</span>&nbsp;
-                            <span>{{ .ThankNum }} 感谢</span>
                         </div>
                     </div>
                     <hr />
                 </div>
                 {{ end }}
-
-                <div class="text-right">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination" style="margin: 0">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+            </div>
+            <div class="panel-footer">
+                <a href="/article_list" class="gray"><i class="fa fa-hand-o-right fa-fw"></i>去往更多分享</a>
             </div>
         </div>
     </div>
@@ -81,7 +60,6 @@
         {{ if .LoginStatus }}
         {{template "home/layout/self.html" .}}
         {{ else }}
-
         <div class="panel">
             <div class="panel-body">
                 <h4>MaomaoGogo</h4>

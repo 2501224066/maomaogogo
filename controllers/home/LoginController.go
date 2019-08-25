@@ -10,8 +10,8 @@ type LoginController struct {
 }
 
 type loginForm struct {
-	Email    string `form:"email" valid:"Required;Email"`
-	Password string `form:"password" valid:"Required;MinSize(6);MaxSize(16)"`
+	Email    string `form:"email" valid:"Required;Email" chn:"邮箱"`
+	Password string `form:"password" valid:"Required;MinSize(6);MaxSize(16)" chn:"密码"`
 }
 
 func (this *LoginController) Get() {

@@ -14,11 +14,11 @@ type RegisterController struct {
 }
 
 type registerForm struct {
-	Nickname       string `form:"nickname" valid:"Required;MaxSize(10)"`
-	Email          string `form:"email" valid:"Required;Email"`
-	Password       string `form:"password" valid:"Required;MinSize(6);MaxSize(16)"`
-	RepeatPassword string `form:"repeat_password" valid:"Required;MinSize(6);MaxSize(16)"`
-	Code           string `form:"code" valid:"Required;Match(/[0-9]{6}/)"`
+	Nickname       string `form:"nickname" valid:"Required;MaxSize(10)" chn:"昵称"`
+	Email          string `form:"email" valid:"Required;Email" chn:"邮箱"`
+	Password       string `form:"password" valid:"Required;MinSize(6);MaxSize(16)" chn:"密码"`
+	RepeatPassword string `form:"repeat_password" valid:"Required;MinSize(6);MaxSize(16)" chn:"重复密码"`
+	Code           string `form:"code" valid:"Required;Match(/[0-9]{6}/)" chn:"验证码"`
 }
 
 func (this *RegisterController) Get() {

@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-md-8 com-sm-12" id="left">
+        <div class="panel">
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                    <li><a href="/">主页</a></li>
+                    <li>写文章</li>
+                </ol>
+                <form action="/article_create" method="POST">
+                    {{ .xsrfdata }}
+                    <div class="form-group">
+                        <label for="l2"><i class="fa fa-ticket fa-fw"></i>标题</label>
+                        <input type="text" name="title" class="form-control" id="l2" maxlength="50" placeholder="Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="l3"><i class="fa fa-magic fa-fw"></i>正文</label>
+                        <div id="editor"></div>
+                    </div>
+                    <input type="hidden" name="editor">
+                    <div class="form-group">
+                        <label for="l4"><i class="fa fa-random fa-fw"></i>节点</label>
+                        <select name="node" class="form-control" id="l4">
+                            {{range .Node}}
+                            <option value="{{ .Name }}">{{ .Name }}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="l2"><i class="fa fa-tag fa-fw"></i>标签</label>
+                        <input type="text" name="tag" class="form-control" id="l2" maxlength="225" placeholder="Tag">
+                        <p class="help-block">* 输入标签，单个标签使用空格隔开</p>
+                    </div>
+                    <br>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary"> 发布文章 </button>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 hidden-sm hidden-xs">
+        <div class="panel">
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                    <li>发帖提示</li>
+                </ol>
+                <ul>
+                    <li>和谐健康</li>
+                    <p>禁止发布涉黄，涉恐，涉爆言论，一经发现将禁止账号并清空账号下相关内容。</p>
+                    <li>尊重原创</li>
+                    <p>请不要发布任何盗版下载链接，包括软件、音乐、电影等等。</p>
+                    <li>友好互助</li>
+                    <p>保持对陌生人的友善。用知识去帮助别人。</p>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const XSRF = $('input[name="_xsrf"]').val();
+
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    editor = this.editorInit(editor)
+    editor.create()
+
+    $('form').bind('submit', function () {
+        var tmp = ajaxSubmit(this, function () {
+            if (tmp.responseJSON.status) {
+                $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + tmp.responseJSON.msg + '</div>')
+                window.setTimeout(function () {
+                    window.location.href = "/"
+                }, 1000);
+            } else {
+                $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + tmp.responseJSON.msg + '</div>')
+            }
+        })
+        return false;
+    })
+</script>

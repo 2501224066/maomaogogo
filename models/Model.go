@@ -19,6 +19,7 @@ type User struct {
 	AvatarUrl  string
 	InShort    string
 	Introduce  string
+	QrImg      string
 	Sex        string
 	Birthday   time.Time
 	Created_at time.Time  `orm:"auto_now_add;type(datetime)"`
@@ -36,6 +37,8 @@ type SystemSetting struct {
 type Node struct {
 	NodeId int `orm:"pk"`
 	Name   string
+	About  string
+	Img    string
 }
 
 type Article struct {
@@ -48,11 +51,16 @@ type Article struct {
 	Tag       string
 	ReadNum   int
 	LikeNum   int
-	ThankNum  int
 	Status    int
 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
 	UpdatedAt time.Time `orm:"auto_now;type(datetime)"`
 	User      *User     `orm:"rel(fk)"`
+}
+
+type ArticleLike struct {
+	Id        int `orm:"pk"`
+	ArticleId int
+	Uid       int
 }
 
 func init() {
@@ -73,6 +81,7 @@ func init() {
 		new(User),
 		new(SystemSetting),
 		new(Node),
-		new(Article))
+		new(Article),
+		new(ArticleLike))
 	O = orm.NewOrm()
 }

@@ -43,8 +43,8 @@
                         <a class="dropdown-toggle" role="button" aria-expanded="true" aria-haspopup="true" href="#"
                             data-toggle="dropdown">{{ .User.Nickname }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/info"><i class="fa fa-user-circle-o"></i> 个人中心</a></li>
-                            <li><a href="/logout"><i class="fa fa-sign-out"></i> 退出登录</a></li>
+                            <li><a href="/user_read"><i class="fa fa-user-circle-o fa-fw"></i>个人中心</a></li>
+                            <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i>退出登录</a></li>
                         </ul>
                     </li>
                     {{ else }}
@@ -56,11 +56,12 @@
         </div>
     </nav>
 
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/static/js/wangEditor.min.js"></script>
-    <script src="/static/js/index.js"></script>
+    <script type="text/javascript"  src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript"  src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript"  src="/static/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript"  src="/static/js/wangEditor.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap-paginator.min.js"></script>
+    <script type="text/javascript"  src="/static/js/index.js"></script>
 
     <div id="warpper">
         <div class="container">

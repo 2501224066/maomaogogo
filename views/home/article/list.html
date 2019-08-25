@@ -1,0 +1,133 @@
+<div class="row">
+
+    <!--左侧start-->
+    <div class="col-md-8 com-sm-12" id="left">
+        <div class="panel" style="border: none">
+            <div class="panel-heading" style="background: #000; color:#fff">
+                {{ if gt .NowNodeId 0 }}
+                {{  range .Node }}
+                {{ if eq $.NowNodeId .NodeId }}
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ if eq .Img "" }}
+                        <img src="/static/images/tu.png" width="100%">
+                        {{ else }}
+                        <img src="{{ .Img }}" width="100%">
+                        {{ end  }}
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            <a href="/article_list">全部分享</a>
+                            &nbsp;›&nbsp;
+                            <strong>{{ .Name }}</strong>
+                        </p>
+                        <p>{{ .About }}</p>
+                    </div>
+                </div>
+                {{ end }}
+                {{ end }}
+                {{ else }}
+                <div>
+                    <p><i class="fa fa-terminal fa-fw"></i>全部节点</p>
+                </div>
+                <div>
+                    {{ range .Node }}
+                    <a href="/article_list/{{ .NodeId }}" class="badge">{{ .Name }}</a>&nbsp;&nbsp;
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+            <div class="panel-body" style="margin-bottom: -31px;">
+                {{ range  .ArticleList}}
+                <div>
+                    <h4 class="hover-blue" style="font-weight: 600">
+                        {{ .Title }}
+                    </h4>
+                    <div class="row" style="margin: 10px 0;">
+                        {{ if .FaceImg }}
+                        <div class="col-md-4 col-xs-4" style="padding-left: 0">
+                            <div class="article_img" style="border-radius: 2px">
+                                <img class="img-responsive" src="{{ .FaceImg }}" height="100%">
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="padding-left: 0;padding-right: 0;">
+                            <div style="font-size: 15px;line-height: 26px;">
+                                {{ .User.Nickname }}：{{ substr .FaceText 0 80 }}...
+                                <a href="/article_read/{{ .ArticleId }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
+                            </div>
+                        </div>
+                        {{ else }}
+                        <div class="col-md-12 col-xs-12" style="padding-left: 0;">
+                            <div style="font-size: 15px;line-height: 26px;">
+                                {{ .User.Nickname }}：{{ substr .FaceText 0 64 }}...
+                                <a href="/article_read/{{ .ArticleId }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                    <div class="row" style="color: #999">
+                        <div class="col-md-12 hidden-xs">
+                            <span class="badge">{{ .Node }}</span>
+                            &nbsp;<span class="snow">•</span>&nbsp;
+                            <span>{{ TimeInterval ( date .CreatedAt "Y-m-d H:i:s" ) }}</span>
+                            &nbsp;<span class="snow">•</span>&nbsp;
+                            <span>{{ .User.Nickname }}</span>
+                            &nbsp;<span class="snow">•</span>&nbsp;
+                            <span></span>{{ .ReadNum }} 阅读</span>
+                            &nbsp;<span class="snow">•</span>&nbsp;
+                            <span>{{ .LikeNum }} 柠檬</span>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+                {{ end }}
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-6" style="line-height: 34px;color:#999">🌟&nbsp;共 {{ .Count }} 文章</div>
+                    <div class="col-md-6 text-right">
+                        <ul id="page" style="margin: 0"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--左侧end-->
+
+    <!--右侧start-->
+    <div class="col-md-4 hidden-sm hidden-xs">
+        {{ if .LoginStatus }}
+        {{template "home/layout/self.html" .}}
+        {{ else }}
+        <div class="panel">
+            <div class="panel-body">
+                <h4>MaomaoGogo</h4>
+                <p class='gray'> 是一个关于宠物和互相帮助的地方</p>
+                <hr>
+                <p class="text-center">
+                    <a href="/register" class="btn btn-default btn-xs" style="font-size: 15px;font-weight: 600"> 现在注册
+                    </a>
+                </p>
+                <div class="text-center">
+                    已注册用户请 <a href="/login">登录</a>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+    <!--右侧end-->
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#page").bootstrapPaginator({
+            currentPage: {{ .PageNo }},
+            totalPages: Math.ceil({{ .Count }} / {{ .PageNum }}),
+            bootstrapMajorVersion: 3,
+            size: "small",
+            onPageClicked: function (e, originalEvent, type, page) {
+                window.location.href = "/?p=" + page
+            }
+        });
+    });
+</script>

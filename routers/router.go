@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"maomaogogo/controllers/errors"
 	"maomaogogo/controllers/home"
 
 	"github.com/astaxie/beego"
@@ -8,14 +9,23 @@ import (
 
 func init() {
 	beego.Router("/", &home.IndexController{})
+	beego.Router("/404", &errors.ErrorController{}, "get:Error404")
+	beego.Router("/send_email/?:type", &home.SendEmailController{})
 	beego.Router("/upload", &home.UploadController{})
+
 	beego.Router("/register", &home.RegisterController{})
 	beego.Router("/login", &home.LoginController{})
 	beego.Router("/logout", &home.LogoutController{})
-	beego.Router("/info", &home.InfoController{})
-	beego.Router("/info_update", &home.InfoUpdateController{})
-	beego.Router("/avatar_url_update", &home.AvatarUrlUpdateController{})
-	beego.Router("/send_email/?:type", &home.SendEmailController{})
-	beego.Router("/create_article", &home.CreateArticleController{})
-	beego.Router("/read_article/?:id", &home.ReadArticleController{})
+
+	beego.Router("/user_read", &home.UserReadController{})
+	beego.Router("/user_edit", &home.UserEditController{})
+	beego.Router("/avatar_url_update", &home.UserEditController{}, "post:AvatarUrlUpdata")
+	beego.Router("/qr_img_update", &home.UserEditController{}, "post:QrImgUpdata")
+
+	beego.Router("/article_create", &home.ArticleCreateController{})
+	beego.Router("/article_edit/?:article_id", &home.ArticleEditController{})
+	beego.Router("/article_list/?:node_id", &home.ArticleListController{})
+	beego.Router("/article_read/?:article_id", &home.ArticleReadController{})
+
+	beego.Router("/user_op/article_like/?:article_id", &home.UserOpController{}, "get:ArticleLike")
 }
