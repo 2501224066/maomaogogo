@@ -10,6 +10,6 @@ type IndexController struct {
 }
 
 func (this *IndexController) Get() {
-	this.Data["ArticleList"] = models.GetArticleList(0, 0, 1)
+	this.Data["ArticleList"] = models.ArticleList(0, 0, 1)
 	this.TplName = "home/index.html"
 }

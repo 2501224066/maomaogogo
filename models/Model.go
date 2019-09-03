@@ -42,22 +42,29 @@ type Node struct {
 }
 
 type Article struct {
-	ArticleId int `orm:"pk"`
-	Title     string
-	Content   string
-	FaceImg   string
-	FaceText  string
-	Node      string
-	Tag       string
-	ReadNum   int
-	LikeNum   int
-	Status    int
-	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
-	UpdatedAt time.Time `orm:"auto_now;type(datetime)"`
-	User      *User     `orm:"rel(fk)"`
+	ArticleId  int `orm:"pk"`
+	Title      string
+	Content    string
+	FaceImg    string
+	FaceText   string
+	Node       string
+	Tag        string
+	ReadNum    int
+	LikeNum    int
+	CollectNum int
+	Status     int
+	CreatedAt  time.Time `orm:"auto_now_add;type(datetime)"`
+	UpdatedAt  time.Time `orm:"auto_now;type(datetime)"`
+	User       *User     `orm:"rel(fk)"`
 }
 
 type ArticleLike struct {
+	Id        int `orm:"pk"`
+	ArticleId int
+	Uid       int
+}
+
+type ArticleCollect struct {
 	Id        int `orm:"pk"`
 	ArticleId int
 	Uid       int
@@ -82,6 +89,8 @@ func init() {
 		new(SystemSetting),
 		new(Node),
 		new(Article),
-		new(ArticleLike))
+		new(ArticleLike),
+		new(ArticleCollect))
+
 	O = orm.NewOrm()
 }

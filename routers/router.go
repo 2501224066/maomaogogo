@@ -27,5 +27,9 @@ func init() {
 	beego.Router("/article_list/?:node_id", &home.ArticleListController{})
 	beego.Router("/article_read/?:article_id", &home.ArticleReadController{})
 
+	beego.Router("/user/article", &home.UserResourceController{}, "get:Article")
+
 	beego.Router("/user_op/article_like/?:article_id", &home.UserOpController{}, "get:ArticleLike")
+	beego.Router("/user_op/article_collect/?:article_id", &home.UserOpController{}, "get:ArticleCollect")
+	beego.Router("/user_op/article_del/?:article_id", &home.UserOpController{}, "get:ArticleDel")
 }

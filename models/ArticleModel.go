@@ -30,8 +30,8 @@ func ArticleInsert(uid int, title, content, node, tag string) bool {
 		User:     &user,
 		Title:    title,
 		Content:  content,
-		FaceImg:  GetFaceImg(content),
-		FaceText: GetFaceText(content),
+		FaceImg:  FaceImg(content),
+		FaceText: FaceText(content),
 		Node:     node,
 		Tag:      tag,
 		Status:   1}
@@ -54,8 +54,8 @@ func ArticleUpdate(ArticleId int, title, content, node, tag string) bool {
 	_, err := O.QueryTable(new(Article)).Filter("article_id", ArticleId).Update(orm.Params{
 		"title":     title,
 		"content":   content,
-		"face_img":  GetFaceImg(content),
-		"face_text": GetFaceText(content),
+		"face_img":  FaceImg(content),
+		"face_text": FaceText(content),
 		"node":      node,
 		"tag":       tag})
 	if err != nil {
@@ -65,7 +65,7 @@ func ArticleUpdate(ArticleId int, title, content, node, tag string) bool {
 	return true
 }
 
-func GetFaceImg(content string) string {
+func FaceImg(content string) string {
 	face_img := ""
 
 	re, _ := regexp.Compile("<img src=\"(.*)\" style")
@@ -77,7 +77,7 @@ func GetFaceImg(content string) string {
 	return face_img
 }
 
-func GetFaceText(content string) string {
+func FaceText(content string) string {
 	// 将HTML标签全转换成小写
 	re, _ := regexp.Compile("\\<[\\S\\s]+?\\>")
 	content = re.ReplaceAllStringFunc(content, strings.ToLower)
@@ -102,7 +102,7 @@ func GetFaceText(content string) string {
 }
 
 // 文章总数量
-func GetArticleCount(nodeId, uid int) int64 {
+func ArticleCount(nodeId, uid int) int64 {
 	query := O.QueryTable(new(Article))
 
 	if nodeId != 0 {
@@ -119,8 +119,8 @@ func GetArticleCount(nodeId, uid int) int64 {
 	return count
 }
 
-// 获取文章
-func GetArticleList(nodeId, uid, p int) []Article {
+// 文章列表
+func ArticleList(nodeId, uid, p int) []Article {
 	var article []Article
 	query := O.QueryTable(new(Article))
 
@@ -145,7 +145,18 @@ func GetArticleList(nodeId, uid, p int) []Article {
 	return article
 }
 
-func ArticleReadAddOne(article Article) {
+// 文章阅读量增加
+func ArticleReadNumUp(article Article) {
 	article.ReadNum = article.ReadNum + 1
 	O.Update(&article, "read_num")
+}
+
+// 文章删除
+func ArticleDel(article_id int) bool {
+	_, err := O.QueryTable(new(Article)).Filter("article_id", article_id).Update(orm.Params{"status": 0})
+	if err != nil {
+		return false
+	}
+
+	return true
 }

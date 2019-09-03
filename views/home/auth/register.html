@@ -44,7 +44,7 @@
                     </form>
                     <div class="col-md-6 text-center">
                         <img src="/static/images/cat_2.png" style="height: 300px">
-                        <h4>欢迎来到MaomaoGogo</h4>
+                        <h4>欢迎来到 MaomaoGogo</h4>
                         <div>我们构建了一个宠物社区，以帮助大家交流</div>
                         <div>祝您在此获得快乐与帮助! 🌝</div>
                     </div>
@@ -58,12 +58,12 @@
     $('form').bind('submit', function () {
         var tmp = ajaxSubmit(this, function () {
             if (tmp.responseJSON.status) {
-                $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + tmp.responseJSON.msg + '</div>')
+                $("#alert").html('<div class="text-center alert alert-success" role="alert">' + tmp.responseJSON.msg + '</div>')
                 window.setTimeout(function () {
                     window.location.href = "/login"
                 }, 1000);
             } else {
-                $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + tmp.responseJSON.msg + '</div>')
+                $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + tmp.responseJSON.msg + '</div>')
             }
         })
         return false;
@@ -73,11 +73,11 @@
     $("#get_code").click(function () {
         var email = $("input[type='email']").val();
         if (!email) {
-            $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + '邮箱未填写' + '</div>')
+            $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + '邮箱未填写' + '</div>')
             return false;
         }
 
-        $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + '稍等片刻，邮件发送中...' + '</div>')
+        $("#alert").html('<div class="text-center alert alert-success" role="alert">' + '稍等片刻，邮件发送中...' + '</div>')
         var formData = new FormData();
         formData.append('email', email);
         formData.append('_xsrf', $('input:hidden').val());
@@ -90,9 +90,9 @@
             data: formData,
             success: function (res) {
                 if (res.status) {
-                    $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + res.msg + '</div>')
+                    $("#alert").html('<div class="text-center alert alert-success" role="alert">' + res.msg + '</div>')
                 } else {
-                    $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + res.msg + '</div>')
+                    $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + res.msg + '</div>')
                 }
             }
         })

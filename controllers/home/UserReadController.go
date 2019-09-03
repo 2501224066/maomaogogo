@@ -10,6 +10,8 @@ type UserReadController struct {
 }
 
 func (this *UserReadController) Get() {
-	this.Data["SelfArticleList"] = models.GetArticleList(0, this.GetSession("UID").(int), 1)
+	this.Data["ArticleCount"] = models.ArticleCount(0, this.GetSession("UID").(int))
+	this.Data["ArticleCollectCount"] = models.ArticleCollectCount(0, this.GetSession("UID").(int))
+
 	this.TplName = "home/user/read.html"
 }

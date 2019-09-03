@@ -22,8 +22,8 @@ func (this *ArticleListController) Get() {
 	}
 
 	this.Data["PageNo"] = p
-	this.Data["Count"] = models.GetArticleCount(node_id, 0)
-	this.Data["ArticleList"] = models.GetArticleList(node_id, 0, p)
+	this.Data["Count"] = models.ArticleCount(node_id, 0)
+	this.Data["ArticleList"] = models.ArticleList(node_id, 0, p)
 	this.Data["Node"] = models.AllNode()
 	this.Data["NowNodeId"] = node_id
 	this.TplName = "home/article/list.html"

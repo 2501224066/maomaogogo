@@ -32,12 +32,16 @@
                 <div class="row" style="margin-bottom: 5px;">
                     <div class="col-md-12">
                         {{ if .LikeStatus }}
-                        <button id="like" class="btn btn-primary btn-sm"><i class="fa fa-lemon-o fa-fw"></i>柠檬 {{ .LikeNum }}</button>
+                        <button id="like" class="btn btn-primary btn-sm"><i class="fa fa-lemon-o fa-fw"></i>柠檬</button>
                         {{ else }}
-                        <button id="like" class="btn btn-sm"><i class="fa fa-lemon-o fa-fw"></i>柠檬 {{ .LikeNum }}</button>
+                        <button id="like" class="btn btn-sm"><i class="fa fa-lemon-o fa-fw"></i>柠檬</button>
+                        {{ end }}
+                        {{ if .CollectStatus }}
+                        <button id="collect" class="btn btn-primary btn-sm"><i class="fa fa-star fa-fw"></i>收藏</button>
+                        {{ else }}
+                        <button id="collect" class="btn btn-sm"><i class="fa fa-star fa-fw"></i>收藏</button>
                         {{ end }}
                         <button class="btn btn-sm"><i class="fa fa-paper-plane fa-fw"></i>分享</button>
-                        <button class="btn btn-sm"><i class="fa fa-star fa-fw"></i>收藏</button>
                         <button class="btn btn-sm" data-toggle="modal" data-target=".bs-example-modal-sm"><i
                                 class="fa fa-qrcode"></i> 打赏</button>
                         <button class="btn btn-sm">
@@ -80,18 +84,41 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 
+    // 点赞
     $("#like").click(function () {
         $.ajax({
             url: '/user_op/article_like/{{ .Article.ArticleId }}',
             type: 'GET',
             success: function (res) {
                 if (res.status) {
-                    $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + res.msg + '</div>')
-                    window.setTimeout(function () {
-                        window.location.reload();
-                    }, 1000);
-                } else {
-                    $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + res.msg + '</div>')
+                    // 调整点赞按钮
+                    if ($('#like').hasClass('btn-primary')) {
+                        $('#like').removeClass("btn-primary");
+                    } else {
+                        $('#like').addClass("btn-primary");
+                    }
+                }else{
+                    $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + res.msg + '</div>')
+                }
+            }
+        })
+    })
+
+    // 收藏
+    $("#collect").click(function () {
+        $.ajax({
+            url: '/user_op/article_collect/{{ .Article.ArticleId }}',
+            type: 'GET',
+            success: function (res) {
+                if (res.status) {
+                    // 调整点赞按钮
+                    if ($('#collect').hasClass('btn-primary')) {
+                        $('#collect').removeClass("btn-primary");
+                    } else {
+                        $('#collect').addClass("btn-primary");
+                    }
+                }else{
+                    $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + res.msg + '</div>')
                 }
             }
         })

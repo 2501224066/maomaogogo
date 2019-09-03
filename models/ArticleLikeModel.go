@@ -13,6 +13,7 @@ func ArticleLikeCount(article_id, uid int) int64 {
 	return count
 }
 
+// 点赞增加
 func ArticleLikeUp(article_id, uid int) bool {
 	articleLike := ArticleLike{
 		ArticleId: article_id,
@@ -32,6 +33,7 @@ func ArticleLikeUp(article_id, uid int) bool {
 	return true
 }
 
+// 点赞减少
 func ArticleLikeDown(article_id, uid int) bool {
 	_, e := O.QueryTable(new(ArticleLike)).Filter("article_id", article_id).Filter("uid", uid).Delete()
 	if e != nil {

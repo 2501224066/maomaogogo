@@ -24,44 +24,22 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel">
             <div class="panel-heading" style="border-bottom: 1px solid #eee">
                 <div class="row">
-                    <div class="col-md-6 text-center">
+                    <div class="col-md-12 text-center">
                         <a class="gray hover-blue" href="#ta" aria-controls="ta" role="tab" data-toggle="tab">
-                            <strong>创建的所有文章</strong>
+                            <strong>最新回复</strong>
                         </a>
                     </div>
                 </div>
 
             </div>
-            <div class="panel-body" style="padding: 0;margin-bottom: -21px;">
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="ta">
-                        <ul class="list-group">
-                            {{ range .SelfArticleList }}
-                            <li class="list-group-item">
-                                <div style="font-size:16px;margin-bottom: 4px;">
-                                    <a class="gray" href="/article_read/{{ .ArticleId }}">{{ .Title }}</a>
-                                    <span class="pull-right"><a class="gray" href="/article_edit/{{ .ArticleId }}"><i class="fa fa-pencil"></i></a></span>
-                                </div>
-                                <div style="color: #999">
-                                    <span class="badge">{{ .Node }}</span>
-                                    &nbsp;<span class="snow">•</span>&nbsp;
-                                    <span>{{ TimeInterval ( date .CreatedAt "Y-m-d H:i:s" ) }}</span>                                  
-                                    &nbsp;<span class="snow">•</span>&nbsp;
-                                    <span></span>{{ .ReadNum }} 阅读</span>
-                                    &nbsp;<span class="snow">•</span>&nbsp;
-                                    <span>{{ .LikeNum }} 柠檬</span>
-                                </div>
-                            </li>
-                            {{ end }}
-                        </ul>
-                    </div>
-                </div>
+            <div class="panel-body">
+               xxx
             </div>
             <div class="panel-footer">
-                <a class="gray">»&nbsp;更多文章</a>    
+                <a class="gray">»&nbsp;更多...</a>
             </div>
         </div>
     </div>
@@ -96,23 +74,23 @@
         </div>
 
         <div class="panel">
-                <div class="panel-body" style="padding: 0;margin-bottom: -21px;">
+            <div class="panel-body" style="padding: 0;margin-bottom: -21px;">
                 <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">{{ .ArticleCount }}</span>
+                        <a href="/user/article" class="gray"><i class="fa fa-book fa-fw"></i>创建的文章</a>
+                    </li>
+                    <li class="list-group-item gray">
+                        <span class="badge">{{ .ArticleCollectCount }}</span>
+                        <a href="#" class="gray"><i class="fa fa-star fa-fw"></i>收藏的文章</a>
+                    </li>            
                     <li class="list-group-item gray">
                         <span class="badge">14</span>
-                        <i class="fa fa-star fa-fw"></i>我的收藏
+                        <a href="#" class="gray"><i class="fa fa-gavel fa-fw"></i>举报反馈</a>
                     </li>
                     <li class="list-group-item gray">
                         <span class="badge">14</span>
-                        <i class="fa fa-heart fa-fw"></i>收到的感谢
-                    </li>
-                    <li class="list-group-item gray">
-                        <span class="badge">14</span>
-                        <i class="fa fa-gavel fa-fw"></i>举报反馈
-                    </li>
-                    <li class="list-group-item gray">
-                        <span class="badge">14</span>
-                        <i class="fa fa-magic fa-fw"></i>网站建议
+                        <a href="#" class="gray"><i class="fa fa-magic fa-fw"></i>网站建议</a>
                     </li>
                 </ul>
             </div>
@@ -192,12 +170,12 @@
                         data: i,
                         success: function (res) {
                             if (res.status) {
-                                $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + res.msg + '</div>')
+                                $("#alert").html('<div class="text-center alert alert-success" role="alert">' + res.msg + '</div>')
                                 window.setTimeout(function () {
                                     window.location.href = "/user_read"
                                 }, 1000);
                             } else {
-                                $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + res.msg + '</div>')
+                                $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + res.msg + '</div>')
                             }
                         }
                     })

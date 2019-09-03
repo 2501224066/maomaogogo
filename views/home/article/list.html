@@ -120,13 +120,15 @@
 
 <script type="text/javascript">
     $(function () {
+        var router = window.location.href.substring(0, window.location.href.indexOf('?'));
+        
         $("#page").bootstrapPaginator({
-            currentPage: {{ .PageNo }},
-            totalPages: Math.ceil({{ .Count }} / {{ .PageNum }}),
+            currentPage: '{{ .PageNo }}',
+            totalPages: Math.ceil('{{ .Count }}' / '{{ .PageNum }}'),
             bootstrapMajorVersion: 3,
             size: "small",
             onPageClicked: function (e, originalEvent, type, page) {
-                window.location.href = "/?p=" + page
+                window.location.href = router + "?p=" + page
             }
         });
     });

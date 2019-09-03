@@ -79,12 +79,12 @@
     $('form').bind('submit', function () {
         var tmp = ajaxSubmit(this, function () {
             if (tmp.responseJSON.status) {
-                $("#alert").html('<div class="text-center alert alert-success" role="alert"><strong>SUCCESS! </strong><br>' + tmp.responseJSON.msg + '</div>')
+                $("#alert").html('<div class="text-center alert alert-success" role="alert">' + tmp.responseJSON.msg + '</div>')
                 window.setTimeout(function () {
-                    window.history.go(-1);
+                    window.location.href=document.referrer;
                 }, 1000);
             } else {
-                $("#alert").html('<div class="text-center alert alert-danger" role="alert"><strong>ERROR! </strong><br>' + tmp.responseJSON.msg + '</div>')
+                $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + tmp.responseJSON.msg + '</div>')
             }
         })
         return false;

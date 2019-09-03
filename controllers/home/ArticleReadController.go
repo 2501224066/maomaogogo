@@ -18,15 +18,24 @@ func (this *ArticleReadController) Get() {
 	}
 
 	// 阅读数 +1
-	models.ArticleReadAddOne(article)
+	models.ArticleReadNumUp(article)
 
+	u := this.GetSession("UID")
 	// 点赞状态
 	this.Data["LikeStatus"] = false
-	u := this.GetSession("UID")
 	if u != nil {
 		count := models.ArticleLikeCount(article_id, this.GetSession("UID").(int))
 		if count > 0 {
 			this.Data["LikeStatus"] = true
+		}
+	}
+
+	// 收藏状态
+	this.Data["CollectStatus"] = false
+	if u != nil {
+		count := models.ArticleCollectCount(article_id, this.GetSession("UID").(int))
+		if count > 0 {
+			this.Data["CollectStatus"] = true
 		}
 	}
 
