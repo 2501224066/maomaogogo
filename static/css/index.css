@@ -23,10 +23,12 @@ hr {
 
 /*链接*/
 a {
+    color: #0084ff;
     text-decoration: none !important;
 }
 
 a:hover {
+    color: #0077e6;
     text-decoration: none !important;
 }
 
@@ -37,6 +39,7 @@ a:hover {
 /*面板*/
 .panel {
     box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+    border: none;
     border-bottom: 1px solid #e2e2e2;
 }
 
@@ -158,8 +161,7 @@ a.badge:hover{
 }
 
 .gray:hover {
-    color: rgb(15, 136, 235);
-    ;
+    color: #0084ff;
 }
 
 /*文章图片*/
