@@ -9,7 +9,7 @@
                 </ol>
                 <form action="/article_edit" method="POST">
                     {{ .xsrfdata }}
-                    <input type="hidden" name="article_id" value="{{ .Article.ArticleId }}">
+                    <input type="hidden" name="article_id" value="{{ .Article.ArticleID }}">
                     <div class="form-group">
                         <label for="l2"><i class="fa fa-ticket fa-fw"></i>标题</label>
                         <input type="text" name="title" class="form-control" id="l2" maxlength="50" placeholder="Title"
@@ -24,10 +24,10 @@
                         <label for="l4"><i class="fa fa-random fa-fw"></i>节点</label>
                         <select name="node" class="form-control" id="l4">
                             {{ range .Node }}
-                            {{ if eq $.Article.Node .Name }}
-                            <option value="{{ .Name }}" selected>{{ .Name }}</option>
+                            {{ if eq $.Article.Node.NodeID .NodeID }}
+                            <option value="{{ .NodeID }}" selected>{{ .Name }}</option>
                             {{ else }}
-                            <option value="{{ .Name }}">{{ .Name }}</option>
+                            <option value="{{ .NodeID }}">{{ .Name }}</option>
                             {{ end }}
                             {{ end }}
                         </select>

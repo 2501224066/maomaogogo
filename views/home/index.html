@@ -19,25 +19,25 @@
                         <div class="col-md-8 col-xs-8" style="padding-left: 0;padding-right: 0;">
                             <div style="font-size: 15px;line-height: 26px;">
                                 {{ .User.Nickname }}：{{ substr .FaceText 0 80 }}...
-                                <a href="/article_read/{{ .ArticleId }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
+                                <a href="/article_read/{{ .ArticleID }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
                             </div>
                         </div>
                         {{ else }}
                         <div class="col-md-12 col-xs-12" style="padding-left: 0;">
                             <div style="font-size: 15px;line-height: 26px;">
                                 {{ .User.Nickname }}：{{ substr .FaceText 0 64 }}...
-                                <a href="/article_read/{{ .ArticleId }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
+                                <a href="/article_read/{{ .ArticleID }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
                             </div>
                         </div>
                         {{ end }}
                     </div>
                     <div class="row" style="color: #999">
                         <div class="col-md-12 hidden-xs">
-                            <span class="badge">{{ .Node }}</span>
+                            <span class="badge"><a href="/article_list/{{ .Node.NodeID }}" style="color:#666">{{ .Node.Name }}</a></span>
                             &nbsp;<span class="snow">•</span>&nbsp;
                             <span>{{ TimeInterval ( date .CreatedAt "Y-m-d H:i:s" ) }}</span>
                             &nbsp;<span class="snow">•</span>&nbsp;
-                            <span>{{ .User.Nickname }}</span>
+                            <span><a class="gray" href="/user_read/{{ .User.UserID }}">{{ .User.Nickname }}</a></span>
                             &nbsp;<span class="snow">•</span>&nbsp;
                             <span></span>{{ .ReadNum }} 阅读</span>
                             &nbsp;<span class="snow">•</span>&nbsp;
@@ -57,24 +57,7 @@
 
     <!--右侧start-->
     <div class="col-md-4 hidden-sm hidden-xs">
-        {{ if .LoginStatus }}
         {{template "home/layout/self.html" .}}
-        {{ else }}
-        <div class="panel">
-            <div class="panel-body">
-                <h4>MaomaoGogo</h4>
-                <p class='gray'> 是一个关于宠物和互相帮助的地方</p>
-                <hr>
-                <p class="text-center">
-                    <a href="/register" class="btn btn-default btn-xs" style="font-size: 15px;font-weight: 600"> 现在注册
-                    </a>
-                </p>
-                <div class="text-center">
-                    已注册用户请 <a href="/login">登录</a>
-                </div>
-            </div>
-        </div>
-        {{ end }}
     </div>
     <!--右侧end-->
 </div>

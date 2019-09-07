@@ -3,24 +3,28 @@
         <div class="panel">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-2" data-toggle="modal" data-target=".bs-example-modal-sm">
-                        <img data-toggle="tooltip" data-placement="bottom" title="点击更换头像"
-                            class="img-responsive border-radius-2px" src="{{ .User.AvatarUrl }}">
+                    <div class="col-md-2" {{ if eq .LoginUser.UserID .UserInfo.UserID }} data-toggle="modal"
+                        data-target=".bs-example-modal-sm" {{ end }}>
+                        <img {{ if eq .LoginUser.UserID .UserInfo.UserID }} data-toggle="tooltip" data-placement="bottom"
+                            title="点击更换头像" {{ end }} class="img-responsive border-radius-2px"
+                            src="{{ .UserInfo.AvatarURL }}">
                     </div>
                     <div class="col-md-10">
                         <p>
-                            <span style="font-weight: 900; font-size: 26px">{{ .User.Nickname }}</span>&nbsp;&nbsp;
-                            <span style="font-size: 16px;"> {{ .User.InShort }}</span>
+                            <span style="font-weight: 900; font-size: 26px">{{ .UserInfo.Nickname }}</span>&nbsp;&nbsp;
+                            <span style="font-size: 16px;"> {{ .UserInfo.InShort }}</span>
                         </p>
-                        <p>{{ .User.Introduce }}</p>
+                        <p>{{ .UserInfo.Introduce }}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6" style="color: #999">
-                        <i class="fa fa-venus-mars fa-fw gray"></i>{{ .User.Sex }}&nbsp;&nbsp;
-                        <i class="fa fa-birthday-cake fa-fw gray"></i>{{ date .User.Birthday "Y-m-d" }}
+                        <span class="gray"><i class="fa fa-venus-mars fa-fw"></i>{{ .UserInfo.Sex }}</span>&nbsp;&nbsp;
+                        <span class="gray"><i class="fa fa-birthday-cake fa-fw"></i>{{ date .UserInfo.Birthday "Y-m-d" }}</span>
                     </div>
+                    {{ if eq .LoginUser.UserID .UserInfo.UserID }}
                     <div class="col-md-6 text-right"><a href="/user_edit">编辑个人资料</a></div>
+                    {{ end }}
                 </div>
             </div>
         </div>
@@ -36,7 +40,7 @@
 
             </div>
             <div class="panel-body">
-               xxx
+                xxx
             </div>
             <div class="panel-footer">
                 <a class="gray">»&nbsp;更多...</a>
@@ -78,12 +82,13 @@
                 <ul class="list-group">
                     <li class="list-group-item">
                         <span class="badge">{{ .ArticleCount }}</span>
-                        <a href="/user/article" class="gray"><i class="fa fa-book fa-fw"></i>创建的文章</a>
+                        <a href="/user/{{ .UserInfo.UserID }}/article" class="gray"><i
+                                class="fa fa-book fa-fw"></i>创建的文章</a>
                     </li>
                     <li class="list-group-item gray">
                         <span class="badge">{{ .ArticleCollectCount }}</span>
                         <a href="#" class="gray"><i class="fa fa-star fa-fw"></i>收藏的文章</a>
-                    </li>            
+                    </li>
                     <li class="list-group-item gray">
                         <span class="badge">14</span>
                         <a href="#" class="gray"><i class="fa fa-gavel fa-fw"></i>举报反馈</a>

@@ -5,10 +5,12 @@ import (
 	"maomaogogo/models"
 )
 
+// UserEditController 编辑用户控制器
 type UserEditController struct {
 	controllers.BaseController
 }
 
+// userEditForm 编辑用户表单结构体
 type userEditForm struct {
 	Nickname  string `form:"nickname" valid:"Required;MaxSize(10)" chn:"昵称"`
 	InShort   string `form:"in_short" valid:"Required;MaxSize(20)" chn:"简介"`
@@ -17,40 +19,44 @@ type userEditForm struct {
 	Introduce string `form:"introduce" valid:"Required;MaxSize(200)" chn:"详细介绍"`
 }
 
-func (this *UserEditController) Get() {
-	this.TplName = "home/user/edit.html"
+// Get ...
+func (c *UserEditController) Get() {
+	c.TplName = "home/user/edit.html"
 }
 
-func (this *UserEditController) Post() {
+// Post ...
+func (c *UserEditController) Post() {
 	var input userEditForm
-	this.ParseForm(&input)
-	this.FormVerify(&input)
+	c.ParseForm(&input)
+	c.FormVerify(&input)
 
-	if re := models.UserUpdate(this.GetSession("UID").(int), input.Nickname, input.InShort, input.Sex, input.Birthday, input.Introduce); re == false {
-		this.ResponseJson(false, "操作失败")
+	if re := models.UserUpdate(c.GetSession("UID").(int), input.Nickname, input.InShort, input.Sex, input.Birthday, input.Introduce); re == false {
+		c.ResponseJSON(false, "操作失败")
 	}
 
-	this.ResponseJson(true, "操作成功")
+	c.ResponseJSON(true, "操作成功")
 }
 
-func (this *UserEditController) AvatarUrlUpdata() {
-	path := this.GetString("path")
+// AvatarURLUpdata 修改头像
+func (c *UserEditController) AvatarURLUpdata() {
+	path := c.GetString("path")
 
-	re := models.AvatarUrlUpdate(this.GetSession("UID").(int), path)
+	re := models.AvatarURLUpdate(c.GetSession("UID").(int), path)
 	if re == false {
-		this.ResponseJson(false, "操作失败")
+		c.ResponseJSON(false, "操作失败")
 	}
 
-	this.ResponseJson(true, "操作成功")
+	c.ResponseJSON(true, "操作成功")
 }
 
-func (this *UserEditController) QrImgUpdata() {
-	path := this.GetString("path")
+// QrImgUpdata 打赏二维码修改
+func (c *UserEditController) QrImgUpdata() {
+	path := c.GetString("path")
 
-	re := models.QrImgUpdate(this.GetSession("UID").(int), path)
+	re := models.QrImgUpdate(c.GetSession("UID").(int), path)
 	if re == false {
-		this.ResponseJson(false, "操作失败")
+		c.ResponseJSON(false, "操作失败")
 	}
 
-	this.ResponseJson(true, "操作成功")
+	c.ResponseJSON(true, "操作成功")
 }

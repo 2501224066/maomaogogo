@@ -10,39 +10,43 @@ import (
 	"github.com/astaxie/beego/validation"
 )
 
+// BaseController 基础控制器
 type BaseController struct {
 	beego.Controller
 }
 
 var (
+	// LoginStatus 登录状态
 	LoginStatus bool
-	User        models.User
+	// LoginUser 登录用户信息
+	LoginUser models.User
 )
 
-func (this *BaseController) Prepare() {
+// Prepare 初始
+func (c *BaseController) Prepare() {
 	// 路径
-	this.Data["Path"] = this.Ctx.Request.RequestURI
+	c.Data["Path"] = c.Ctx.Request.RequestURI
 
 	// CSRF
-	this.Data["xsrfdata"] = template.HTML(this.XSRFFormHTML())
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 
 	// 登录状态
-	uid := this.GetSession("UID")
+	uid := c.GetSession("UID")
 	if uid != nil {
 		LoginStatus = true
-		User = models.UserRead(uid.(int))
+		LoginUser = models.UserRead(uid.(int))
 	} else {
 		LoginStatus = false
 	}
-	this.Data["LoginStatus"] = LoginStatus
-	this.Data["User"] = User
-	this.Data["PageNum"], _ = beego.AppConfig.Int("page::num")
+	c.Data["LoginStatus"] = LoginStatus
+	c.Data["LoginUser"] = LoginUser
+	c.Data["PageNum"], _ = beego.AppConfig.Int("page::num")
 
-	this.Layout = "home/layout/layout.html"
+	c.Layout = "home/layout/layout.html"
 }
 
-// 返回JSON
-func (this *BaseController) ResponseJson(isSuccess bool, msg string, data ...interface{}) {
+// ResponseJSON 返回JSON
+func (c *BaseController) ResponseJSON(isSuccess bool, msg string, data ...interface{}) {
 	status := 0
 	if isSuccess {
 		status = 1
@@ -51,13 +55,13 @@ func (this *BaseController) ResponseJson(isSuccess bool, msg string, data ...int
 	if len(data) > 0 {
 		ret["data"] = data[0]
 	}
-	this.Data["json"] = ret
-	this.ServeJSON()
-	this.StopRun()
+	c.Data["json"] = ret
+	c.ServeJSON()
+	c.StopRun()
 }
 
-// 表单校验
-func (this *BaseController) FormVerify(input interface{}) {
+// FormVerify 表单校验
+func (c *BaseController) FormVerify(input interface{}) {
 	setVerifyMessage()
 
 	valid := validation.Validation{}
@@ -67,11 +71,11 @@ func (this *BaseController) FormVerify(input interface{}) {
 		st := reflect.TypeOf(input).Elem()             // 反射获取 input 信息
 		field, _ := st.FieldByName(arr[0])             // 获取 Password 参数信息
 
-		this.ResponseJson(false, field.Tag.Get("chn")+valid.Errors[0].Message)
+		c.ResponseJSON(false, field.Tag.Get("chn")+valid.Errors[0].Message)
 	}
 }
 
-// 设置表单验证messages
+// setVerifyMessage 设置表单验证messages
 func setVerifyMessage() {
 	var MessageTmpls = map[string]string{
 		"Required":     "不能为空",

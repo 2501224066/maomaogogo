@@ -4,11 +4,13 @@ import (
 	"maomaogogo/controllers"
 )
 
+// LogoutController 登出控制器
 type LogoutController struct {
 	controllers.BaseController
 }
 
-func (this *LogoutController) Get() {
-	this.DelSession("UID")
-	this.Ctx.Redirect(302, "/")
+// Get ...
+func (c *LogoutController) Get() {
+	c.DelSession("UID")
+	c.Ctx.Redirect(302, "/")
 }

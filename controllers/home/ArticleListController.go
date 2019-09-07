@@ -6,25 +6,26 @@ import (
 	"strconv"
 )
 
+// ArticleListController 文章列表结构体
 type ArticleListController struct {
 	controllers.BaseController
 }
 
-func (this *ArticleListController) Get() {
+// Get ...
+func (c *ArticleListController) Get() {
 	// 当前节点
-	node_id_str := this.Ctx.Input.Param(":node_id")
-	node_id, _ := strconv.Atoi(node_id_str)
+	nodeID, _ := strconv.Atoi(c.Ctx.Input.Param(":node_id"))
 
 	// 当前页面
-	p, _ := strconv.Atoi(this.Input().Get("p"))
+	p, _ := strconv.Atoi(c.Input().Get("p"))
 	if p == 0 {
 		p = 1
 	}
 
-	this.Data["PageNo"] = p
-	this.Data["Count"] = models.ArticleCount(node_id, 0)
-	this.Data["ArticleList"] = models.ArticleList(node_id, 0, p)
-	this.Data["Node"] = models.AllNode()
-	this.Data["NowNodeId"] = node_id
-	this.TplName = "home/article/list.html"
+	c.Data["PageNo"] = p
+	c.Data["Count"] = models.ArticleCount(nodeID, 0)
+	c.Data["ArticleList"] = models.ArticleList(nodeID, 0, p)
+	c.Data["Node"] = models.AllNode()
+	c.Data["NowNodeId"] = nodeID
+	c.TplName = "home/article/list.html"
 }

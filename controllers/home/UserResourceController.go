@@ -6,19 +6,24 @@ import (
 	"strconv"
 )
 
+// UserResourceController 用户资源控制器
 type UserResourceController struct {
 	controllers.BaseController
 }
 
-func (this *UserResourceController) Article() {
+// Article 用户文章
+func (c *UserResourceController) Article() {
 	// 当前页面
-	p, _ := strconv.Atoi(this.Input().Get("p"))
+	p, _ := strconv.Atoi(c.Input().Get("p"))
 	if p == 0 {
 		p = 1
 	}
 
-	this.Data["PageNo"] = p
-	this.Data["Count"] = models.ArticleCount(0, this.GetSession("UID").(int))
-	this.Data["ArticleList"] = models.ArticleList(0, this.GetSession("UID").(int), p)
-	this.TplName = "home/user/article.html"
+	userID, _ := strconv.Atoi(c.Ctx.Input.Param(":user_id"))
+
+	c.Data["UserInfo"] = models.UserRead(userID)
+	c.Data["PageNo"] = p
+	c.Data["Count"] = models.ArticleCount(0, userID)
+	c.Data["ArticleList"] = models.ArticleList(0, userID, p)
+	c.TplName = "home/user/article.html"
 }

@@ -6,68 +6,89 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+
+	// mysql使用
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// O orm实例
 var O orm.Ormer
 
+// User 用户表
 type User struct {
-	Uid        int `orm:"pk"`
-	Nickname   string
-	Email      string
-	Password   string
-	AvatarUrl  string
-	InShort    string
-	Introduce  string
-	QrImg      string
-	Sex        string
-	Birthday   time.Time
-	Created_at time.Time  `orm:"auto_now_add;type(datetime)"`
-	Updated_at time.Time  `orm:"auto_now;type(datetime)"`
-	Article    []*Article `orm:"reverse(many)"`
+	UserID    int `orm:"column(user_id);pk"`
+	Nickname  string
+	Email     string
+	Password  string
+	AvatarURL string `orm:"column(avatar_url)"`
+	InShort   string
+	Introduce string
+	QrImg     string
+	Sex       string
+	Birthday  time.Time
+	CreatedAt time.Time  `orm:"auto_now_add;type(datetime)"`
+	UpdatedAt time.Time  `orm:"auto_now;type(datetime)"`
+	Article   []*Article `orm:"reverse(many)"`
+	Comment   []*Comment `orm:"reverse(many)"`
 }
 
+// SystemSetting 设置表
 type SystemSetting struct {
-	Id    int `orm:"pk"`
+	ID    int `orm:"column(id);pk"`
 	Key   string
 	Name  string
 	Value string
 }
 
+// Node 节点表
 type Node struct {
-	NodeId int `orm:"pk"`
+	NodeID int `orm:"column(node_id);pk"`
 	Name   string
 	About  string
 	Img    string
 }
 
+// Article 文章表
 type Article struct {
-	ArticleId  int `orm:"pk"`
+	ArticleID  int   `orm:"column(article_id);pk"`
+	User       *User `orm:"rel(fk)"`
 	Title      string
 	Content    string
 	FaceImg    string
 	FaceText   string
-	Node       string
+	Node       *Node `orm:"rel(one)"`
 	Tag        string
 	ReadNum    int
 	LikeNum    int
 	CollectNum int
+	CommentNum int
 	Status     int
 	CreatedAt  time.Time `orm:"auto_now_add;type(datetime)"`
 	UpdatedAt  time.Time `orm:"auto_now;type(datetime)"`
-	User       *User     `orm:"rel(fk)"`
 }
 
+// ArticleLike 文章点赞表
 type ArticleLike struct {
-	Id        int `orm:"pk"`
-	ArticleId int
-	Uid       int
+	ID        int `orm:"column(id);pk"`
+	ArticleID int `orm:"column(article_id)"`
+	UserID    int `orm:"column(user_id)"`
 }
 
+// ArticleCollect 文章收藏表
 type ArticleCollect struct {
-	Id        int `orm:"pk"`
-	ArticleId int
-	Uid       int
+	ID        int `orm:"column(id);pk"`
+	ArticleID int `orm:"column(article_id)"`
+	UserID    int `orm:"column(user_id)"`
+}
+
+// Comment 评论表
+type Comment struct {
+	CommentID int      `orm:"column(comment_id);pk"`
+	Article   *Article `orm:"rel(fk)"`
+	User      *User    `orm:"rel(fk)"`
+	Content   string
+	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
+	UpdatedAt time.Time `orm:"auto_now;type(datetime)"`
 }
 
 func init() {
@@ -90,7 +111,9 @@ func init() {
 		new(Node),
 		new(Article),
 		new(ArticleLike),
-		new(ArticleCollect))
+		new(ArticleCollect),
+		new(Comment))
 
+	orm.Debug = true
 	O = orm.NewOrm()
 }

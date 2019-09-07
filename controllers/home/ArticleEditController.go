@@ -6,39 +6,42 @@ import (
 	"strconv"
 )
 
+// ArticleEditController 编辑文章控制器
 type ArticleEditController struct {
 	controllers.BaseController
 }
 
+// articleEditForm 表单结构体
 type articleEditForm struct {
-	ArticleId int    `form:"article_id" valid:"Required" chn:"文章标记"`
+	ArticleID int    `form:"article_id" valid:"Required" chn:"文章标记"`
 	Title     string `form:"title" valid:"Required;MaxSize(50)" chn:"标题"`
 	Content   string `form:"editor" valid:"Required" chn:"内容"`
 	Node      string `form:"node" valid:"Required;MaxSize(10)" chn:"节点"`
 	Tag       string `form:"tag" valid:"Required" chn:"标签"`
 }
 
-func (this *ArticleEditController) Get() {
-	article_id, _ := strconv.Atoi(this.Ctx.Input.Param(":article_id"))
-	article, err := models.ArticleRead(article_id)
+// Get ...
+func (c *ArticleEditController) Get() {
+	articleID, _ := strconv.Atoi(c.Ctx.Input.Param(":article_id"))
+	article, err := models.ArticleRead(articleID)
 	if err != nil {
-		this.Ctx.Redirect(302, "/404")
+		c.Ctx.Redirect(302, "/404")
 	}
 
-	this.Data["Node"] = models.AllNode()
-	this.Data["Article"] = article
-	this.TplName = "home/article/edit.html"
+	c.Data["Node"] = models.AllNode()
+	c.Data["Article"] = article
+	c.TplName = "home/article/edit.html"
 }
 
-func (this *ArticleEditController) Post() {
+// Post ...
+func (c *ArticleEditController) Post() {
 	var input articleEditForm
-	this.ParseForm(&input)
-	this.FormVerify(&input)
+	c.ParseForm(&input)
+	c.FormVerify(&input)
 
-	if b := models.ArticleUpdate(input.ArticleId, input.Title, input.Content, input.Node, input.Tag); b == false {
-		this.ResponseJson(false, "保存失败")
+	if b := models.ArticleUpdate(input.ArticleID, input.Title, input.Content, input.Node, input.Tag); b == false {
+		c.ResponseJSON(false, "保存失败")
 	}
 
-	this.ResponseJson(true, "编辑成功")
-
+	c.ResponseJSON(true, "编辑成功")
 }

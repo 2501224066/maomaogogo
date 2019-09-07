@@ -17,9 +17,9 @@ func init() {
 	beego.Router("/login", &home.LoginController{})
 	beego.Router("/logout", &home.LogoutController{})
 
-	beego.Router("/user_read", &home.UserReadController{})
+	beego.Router("/user_read/:user_id", &home.UserReadController{})
 	beego.Router("/user_edit", &home.UserEditController{})
-	beego.Router("/avatar_url_update", &home.UserEditController{}, "post:AvatarUrlUpdata")
+	beego.Router("/avatar_url_update", &home.UserEditController{}, "post:AvatarURLUpdata")
 	beego.Router("/qr_img_update", &home.UserEditController{}, "post:QrImgUpdata")
 
 	beego.Router("/article_create", &home.ArticleCreateController{})
@@ -27,9 +27,11 @@ func init() {
 	beego.Router("/article_list/?:node_id", &home.ArticleListController{})
 	beego.Router("/article_read/?:article_id", &home.ArticleReadController{})
 
-	beego.Router("/user/article", &home.UserResourceController{}, "get:Article")
+	beego.Router("/user/:user_id/article", &home.UserResourceController{}, "get:Article")
 
 	beego.Router("/user_op/article_like/?:article_id", &home.UserOpController{}, "get:ArticleLike")
 	beego.Router("/user_op/article_collect/?:article_id", &home.UserOpController{}, "get:ArticleCollect")
 	beego.Router("/user_op/article_del/?:article_id", &home.UserOpController{}, "get:ArticleDel")
+
+	beego.Router("/comment/?:article_id", &home.CommentController{})
 }

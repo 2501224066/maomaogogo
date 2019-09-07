@@ -20,6 +20,9 @@ hr {
 .btn-primary {
     border: none !important;
 }
+.btn:hover {
+    box-shadow: 0 1px 2px rgba(0,0,0,.2)
+}
 
 /*链接*/
 a {
@@ -55,7 +58,10 @@ img {
     color: #666;
     font-weight: inherit;
 }
-a.badge:hover{
+.badge:hover {
+    box-shadow: 0 1px 2px rgba(0,0,0,.2)
+}
+a.badge:hover {
     color: #000;
 }
 
@@ -157,7 +163,7 @@ a.badge:hover{
 
 /*全局灰色*/
 .gray {
-    color: #778087;
+    color: #999;
 }
 
 .gray:hover {

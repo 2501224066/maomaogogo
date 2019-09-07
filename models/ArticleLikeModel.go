@@ -2,30 +2,31 @@ package models
 
 import "github.com/astaxie/beego/orm"
 
-func ArticleLikeCount(article_id, uid int) int64 {
+// ArticleLikeCount 点赞数量
+func ArticleLikeCount(articleID, userID int) int64 {
 	query := O.QueryTable(new(ArticleLike))
 
-	if uid != 0 {
-		query = query.Filter("uid", uid)
+	if userID != 0 {
+		query = query.Filter("user_id", userID)
 	}
 
-	count, _ := query.Filter("article_id", article_id).Count()
+	count, _ := query.Filter("article_id", articleID).Count()
 	return count
 }
 
-// 点赞增加
-func ArticleLikeUp(article_id, uid int) bool {
+// ArticleLikeUp 点赞增加
+func ArticleLikeUp(articleID, userID int) bool {
 	articleLike := ArticleLike{
-		ArticleId: article_id,
-		Uid:       uid}
+		ArticleID: articleID,
+		UserID:    userID}
 	_, e := O.Insert(&articleLike)
 	if e != nil {
 		return false
 	}
 
 	var article Article
-	O.QueryTable(new(Article)).Filter("article_id", article_id).One(&article)
-	_, err := O.QueryTable(new(Article)).Filter("article_id", article_id).Update(orm.Params{"like_num": article.LikeNum + 1})
+	O.QueryTable(new(Article)).Filter("article_id", articleID).One(&article)
+	_, err := O.QueryTable(new(Article)).Filter("article_id", articleID).Update(orm.Params{"like_num": article.LikeNum + 1})
 	if err != nil {
 		return false
 	}
@@ -33,16 +34,16 @@ func ArticleLikeUp(article_id, uid int) bool {
 	return true
 }
 
-// 点赞减少
-func ArticleLikeDown(article_id, uid int) bool {
-	_, e := O.QueryTable(new(ArticleLike)).Filter("article_id", article_id).Filter("uid", uid).Delete()
+// ArticleLikeDown 点赞减少
+func ArticleLikeDown(articleID, userID int) bool {
+	_, e := O.QueryTable(new(ArticleLike)).Filter("article_id", articleID).Filter("user_id", userID).Delete()
 	if e != nil {
 		return false
 	}
 
 	var article Article
-	O.QueryTable(new(Article)).Filter("article_id", article_id).One(&article)
-	_, err := O.QueryTable(new(Article)).Filter("article_id", article_id).Update(orm.Params{"like_num": article.LikeNum - 1})
+	O.QueryTable(new(Article)).Filter("article_id", articleID).One(&article)
+	_, err := O.QueryTable(new(Article)).Filter("article_id", articleID).Update(orm.Params{"like_num": article.LikeNum - 1})
 	if err != nil {
 		return false
 	}

@@ -8,20 +8,22 @@
                             {{ range .ArticleList }}
                             <li class="list-group-item">
                                 <div style="font-size:16px;margin-bottom: 4px;">
-                                    <a class="gray" href="/article_read/{{ .ArticleId }}">{{ .Title }}</a>
+                                    <a class="gray" href="/article_read/{{ .ArticleID }}">{{ .Title }}</a>
+                                    {{ if eq $.LoginUser.UserID $.UserInfo.UserID}}
                                     <span class="pull-right">
-                                        <span class="gray" onclick="del_modal('{{ .ArticleId }}')">
+                                        <span class="gray" onclick="del_modal('{{ .ArticleID }}')">
                                             <i class="fa fa-trash-o"></i>
                                         </span>
                                     </span>
                                     <span class="pull-right" style="margin-right: .5em">
-                                        <a class="gray" href="/article_edit/{{ .ArticleId }}">
+                                        <a class="gray" href="/article_edit/{{ .ArticleID }}">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                     </span>
+                                    {{ end }}
                                 </div>
                                 <div style="color: #999">
-                                    <span class="badge">{{ .Node }}</span>
+                                    <span class="badge"><a href="/article_list/{{ .Node.NodeID }}" style="color:#666">{{ .Node.Name }}</a></span>
                                     &nbsp;<span class="snow">•</span>&nbsp;
                                     <span>{{ TimeInterval ( date .CreatedAt "Y-m-d H:i:s" ) }}</span>
                                     &nbsp;<span class="snow">•</span>&nbsp;

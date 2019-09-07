@@ -1,4 +1,6 @@
 <div class="row">
+
+    <!--左侧start-->
     <div class="col-md-8 com-sm-12" id="left">
         <div class="panel">
             <div class="panel-body">
@@ -8,20 +10,22 @@
                 </ol>
                 <h3><strong>{{ .Article.Title }}</strong></h3>
                 <div style="margin-bottom: 15px">
-                    <a>
-                        <img src="{{ .Article.User.AvatarUrl }}" alt="头像" width="24px"
+                    <a href="/user_read/{{.Article.User.UserID }}">
+                        <img src="{{ .Article.User.AvatarURL }}" alt="头像" width="24px"
                             style="border-radius: 2px;">&nbsp;
                         <span style="font-size: 15px;color: #000">{{ .Article.User.Nickname }}</span>&nbsp;
-                        <span style="color: #999; font-size: 12px;">
-                            创建于{{ date .Article.CreatedAt "Y-m-d H:i:s" }}
-                            &nbsp;·&nbsp;
-                            {{ .Article.ReadNum }} 阅读
-                            &nbsp;·&nbsp;
-                            {{ .Article.LikeNum }} 柠檬
-                        </span>
                     </a>
+                    <span style="color: #999; font-size: 12px;">
+                        创建于{{ date .Article.CreatedAt "Y-m-d H:i:s" }}
+                        &nbsp;·&nbsp;
+                        {{ .Article.ReadNum }} 阅读
+                        &nbsp;·&nbsp;
+                        {{ .Article.LikeNum }} 柠檬
+                    </span>
                 </div>
-                <div class="article_content"></div>
+                <div>
+                    {{ str2html .Article.Content }}
+                </div>
                 <div>
                     <span style="color:#646464">标签：</span>
                     {{ range StrSplitForBlankSpace .Article.Tag }}
@@ -60,11 +64,68 @@
                 </div>
             </div>
         </div>
-    </div>
 
+        <!--评论展示-->
+        {{ if eq .Article.CommentNum 0}}
+        <div class="panel" style="background: none; border: 2px dashed #999;color: #999">
+            <div class="panel-body text-center">
+                暂无评论
+            </div>
+        </div>
+        {{else}}
+        <div class="panel">
+            <div class="panel-body" style="margin-bottom: -31px;">
+                {{ range .CommentList }}
+                <div class="row">
+                    <div class="col-md-1" style="padding-right: 0">
+                        <img src="{{ .User.AvatarURL }}" width="100%">
+                    </div>
+                    <div class="col-md-11">
+                        <p>
+                            <a href="/user_read/{{ .User.UserID }}"
+                                class="gray"><strong>{{ .User.Nickname }}</strong></a>&nbsp;&nbsp;
+                            <span style="color: #999">{{ TimeInterval ( date .CreatedAt "Y-m-d H:i:s" ) }}</span>
+                            <span class="pull-right"
+                                onclick="reply_user('/user_read/{{ .User.UserID }}', '{{ .User.Nickname }}')">
+                                <i class="fa fa-reply fa-fw gray"></i>
+                            </span>
+                        </p>
+                        <div>{{ str2html .Content }}</div>
+                    </div>
+                </div>
+                <hr>
+                {{ end }}
+            </div>
+        </div>
+        {{end}}
+
+        <!--添加评论-->
+        {{ if .LoginStatus }}
+
+        <div class="panel">
+            <div class="panel-body">
+                <form action="/comment/{{.Article.ArticleID}}" method="POST">
+                    {{ .xsrfdata }}
+                    <div class="form-group">
+                        <label for="l3">👩‍💻 回复</label>
+                        <div id="editor"></div>
+                    </div>
+                    <input type="hidden" name="editor">
+                    <button type="submit" class="btn btn-success btn-xs pull-right">
+                        道路畅通,开车 <i class="fa fa-car fa-fw"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        {{end}}
+    </div>
+    <!--左侧end-->
+
+    <!--右侧start-->
     <div class="col-md-4 hidden-sm hidden-xs">
         {{template "home/layout/self.html" .}}
     </div>
+    <!--右侧end-->
 </div>
 
 <!--打赏模态框start-->
@@ -78,8 +139,6 @@
 <!--打赏模态框start-->
 
 <script>
-    $(".article_content").html('{{ .Article.Content }}')
-
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
@@ -87,7 +146,7 @@
     // 点赞
     $("#like").click(function () {
         $.ajax({
-            url: '/user_op/article_like/{{ .Article.ArticleId }}',
+            url: '/user_op/article_like/{{ .Article.ArticleID }}',
             type: 'GET',
             success: function (res) {
                 if (res.status) {
@@ -97,7 +156,7 @@
                     } else {
                         $('#like').addClass("btn-primary");
                     }
-                }else{
+                } else {
                     $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + res.msg + '</div>')
                 }
             }
@@ -107,7 +166,7 @@
     // 收藏
     $("#collect").click(function () {
         $.ajax({
-            url: '/user_op/article_collect/{{ .Article.ArticleId }}',
+            url: '/user_op/article_collect/{{ .Article.ArticleID }}',
             type: 'GET',
             success: function (res) {
                 if (res.status) {
@@ -117,10 +176,54 @@
                     } else {
                         $('#collect').addClass("btn-primary");
                     }
-                }else{
+                } else {
                     $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + res.msg + '</div>')
                 }
             }
         })
     })
+
+    // 提交评论
+    const XSRF = $('input[name="_xsrf"]').val();
+
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    editor = this.editorInit(editor)
+    editor.create()
+
+    // 内容初始加入一个 span 排除 p 对回复名称的影响
+    // 设置评论框高度
+    $('.w-e-text-container').css('height', '100px')
+
+    $('form').bind('submit', function () {
+        var tmp = ajaxSubmit(this, function () {
+            if (tmp.responseJSON.status) {
+                $("#alert").html('<div class="text-center alert alert-success" role="alert">' + tmp.responseJSON.msg + '</div>')
+                window.setTimeout(function () {
+                    window.location.reload()
+                }, 1000);
+            } else {
+                $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + tmp.responseJSON.msg + '</div>')
+            }
+        })
+        return false;
+    })
+
+    // 插入回复人
+    function reply_user(user_url, user_name) {
+        user_name_len = user_name.length * 14
+        str = '<span>@<a href="' + user_url + '"><input oninput="reply_save($(this))" style="border:none;width:' + user_name_len + 'px" type="text" value="' + user_name + '"></a>&nbsp;<span>'
+        if (editor.txt.html() == "<p><br></p>") {
+            editor.txt.html(str)
+        } else {
+            c = editor.txt.html()
+            editor.txt.html(c + str);
+        }
+    }
+
+    // 整体删除回复人名称  
+    function reply_save(obj) {
+        obj.parent().parent().remove()
+    }
+
 </script>

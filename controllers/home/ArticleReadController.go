@@ -6,39 +6,44 @@ import (
 	"strconv"
 )
 
+// ArticleReadController 阅读文章控制器
 type ArticleReadController struct {
 	controllers.BaseController
 }
 
-func (this *ArticleReadController) Get() {
-	article_id, _ := strconv.Atoi(this.Ctx.Input.Param(":article_id"))
-	article, err := models.ArticleRead(article_id)
+// Get ...
+func (c *ArticleReadController) Get() {
+	articleID, _ := strconv.Atoi(c.Ctx.Input.Param(":article_id"))
+	article, err := models.ArticleRead(articleID)
 	if err != nil {
-		this.Ctx.Redirect(302, "/404")
+		c.Ctx.Redirect(302, "/404")
 	}
 
 	// 阅读数 +1
 	models.ArticleReadNumUp(article)
 
-	u := this.GetSession("UID")
+	u := c.GetSession("UID")
 	// 点赞状态
-	this.Data["LikeStatus"] = false
+	c.Data["LikeStatus"] = false
 	if u != nil {
-		count := models.ArticleLikeCount(article_id, this.GetSession("UID").(int))
+		count := models.ArticleLikeCount(articleID, c.GetSession("UID").(int))
 		if count > 0 {
-			this.Data["LikeStatus"] = true
+			c.Data["LikeStatus"] = true
 		}
 	}
 
 	// 收藏状态
-	this.Data["CollectStatus"] = false
+	c.Data["CollectStatus"] = false
 	if u != nil {
-		count := models.ArticleCollectCount(article_id, this.GetSession("UID").(int))
+		count := models.ArticleCollectCount(articleID, c.GetSession("UID").(int))
 		if count > 0 {
-			this.Data["CollectStatus"] = true
+			c.Data["CollectStatus"] = true
 		}
 	}
 
-	this.Data["Article"] = article
-	this.TplName = "home/article/read.html"
+	// 评论
+	c.Data["CommentList"] = models.CommentList(articleID)
+
+	c.Data["Article"] = article
+	c.TplName = "home/article/read.html"
 }

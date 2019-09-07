@@ -2,34 +2,35 @@ package models
 
 import "github.com/astaxie/beego/orm"
 
-func ArticleCollectCount(article_id, uid int) int64 {
+// ArticleCollectCount 收藏数量
+func ArticleCollectCount(articleID, userID int) int64 {
 	query := O.QueryTable(new(ArticleCollect))
 
-	if article_id != 0 {
-		query = query.Filter("article_id", article_id)
+	if articleID != 0 {
+		query = query.Filter("article_id", articleID)
 	}
 
-	if uid != 0 {
-		query = query.Filter("uid", uid)
+	if userID != 0 {
+		query = query.Filter("user_id", userID)
 	}
 
 	count, _ := query.Count()
 	return count
 }
 
-// 收藏增加
-func ArticleCollectUp(article_id, uid int) bool {
+// ArticleCollectUp 收藏增加
+func ArticleCollectUp(articleID, userID int) bool {
 	articleCollect := ArticleCollect{
-		ArticleId: article_id,
-		Uid:       uid}
+		ArticleID: articleID,
+		UserID:    userID}
 	_, e := O.Insert(&articleCollect)
 	if e != nil {
 		return false
 	}
 
 	var article Article
-	O.QueryTable(new(Article)).Filter("article_id", article_id).One(&article)
-	_, err := O.QueryTable(new(Article)).Filter("article_id", article_id).Update(orm.Params{"collect_num": article.CollectNum + 1})
+	O.QueryTable(new(Article)).Filter("article_id", articleID).One(&article)
+	_, err := O.QueryTable(new(Article)).Filter("article_id", articleID).Update(orm.Params{"collect_num": article.CollectNum + 1})
 	if err != nil {
 		return false
 	}
@@ -37,16 +38,16 @@ func ArticleCollectUp(article_id, uid int) bool {
 	return true
 }
 
-// 收藏减少
-func ArticleCollectDown(article_id, uid int) bool {
-	_, e := O.QueryTable(new(ArticleCollect)).Filter("article_id", article_id).Filter("uid", uid).Delete()
+// ArticleCollectDown 收藏减少
+func ArticleCollectDown(articleID, userID int) bool {
+	_, e := O.QueryTable(new(ArticleCollect)).Filter("article_id", articleID).Filter("user_id", userID).Delete()
 	if e != nil {
 		return false
 	}
 
 	var article Article
-	O.QueryTable(new(Article)).Filter("article_id", article_id).One(&article)
-	_, err := O.QueryTable(new(Article)).Filter("article_id", article_id).Update(orm.Params{"collect_num": article.CollectNum - 1})
+	O.QueryTable(new(Article)).Filter("article_id", articleID).One(&article)
+	_, err := O.QueryTable(new(Article)).Filter("article_id", articleID).Update(orm.Params{"collect_num": article.CollectNum - 1})
 	if err != nil {
 		return false
 	}

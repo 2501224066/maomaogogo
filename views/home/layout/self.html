@@ -4,16 +4,16 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-4">
-                <a href="/user_read">
+                <a href="/user_read/{{ .LoginUser.UserID }}">
                     <img width="100%" style="height:75px" class="img-responsive border-radius-2px"
-                        src="{{ .User.AvatarUrl }}">
+                        src="{{ .LoginUser.AvatarURL }}">
                 </a>
             </div>
             <div class="col-md-8">
-                <a href="/user_read" style="color: #333">
-                    <p style="font-size:18px;font-weight:600">{{ .User.Nickname }}</p>
+                <a href="/user_read/{{ .LoginUser.UserID }}" style="color: #333">
+                    <p style="font-size:18px;font-weight:600">{{ .LoginUser.Nickname }}</p>
                 </a>
-                <p>{{ .User.InShort }}</p>
+                <p>{{ .LoginUser.InShort }}</p>
             </div>
         </div>
         <div class="row" style="margin-top:10px;">

@@ -6,70 +6,71 @@ import (
 	"strconv"
 )
 
+// UserOpController 用户操作控制器
 type UserOpController struct {
 	controllers.BaseController
 }
 
-// 文章点赞
-func (this *UserOpController) ArticleLike() {
-	if u := this.GetSession("UID"); u == nil {
-		this.ResponseJson(false, "未登录禁止操作")
+// ArticleLike 文章点赞
+func (c *UserOpController) ArticleLike() {
+	if u := c.GetSession("UID"); u == nil {
+		c.ResponseJSON(false, "未登录禁止操作")
 	}
 
-	article_id, _ := strconv.Atoi(this.Ctx.Input.Param(":article_id"))
-	uid := this.GetSession("UID").(int)
+	articleID, _ := strconv.Atoi(c.Ctx.Input.Param(":article_id"))
+	userID := c.GetSession("UID").(int)
 
 	// 点赞状态
-	count := models.ArticleLikeCount(article_id, uid)
+	count := models.ArticleLikeCount(articleID, userID)
 
 	var b bool
 	if count > 0 {
-		b = models.ArticleLikeDown(article_id, uid)
+		b = models.ArticleLikeDown(articleID, userID)
 	} else {
-		b = models.ArticleLikeUp(article_id, uid)
+		b = models.ArticleLikeUp(articleID, userID)
 	}
 
 	if !b {
-		this.ResponseJson(false, "操作失败")
+		c.ResponseJSON(false, "操作失败")
 	}
 
-	this.ResponseJson(true, "操作成功")
+	c.ResponseJSON(true, "操作成功")
 }
 
-// 文章收藏
-func (this *UserOpController) ArticleCollect() {
-	if u := this.GetSession("UID"); u == nil {
-		this.ResponseJson(false, "未登录禁止操作")
+// ArticleCollect 文章收藏
+func (c *UserOpController) ArticleCollect() {
+	if u := c.GetSession("UID"); u == nil {
+		c.ResponseJSON(false, "未登录禁止操作")
 	}
 
-	article_id, _ := strconv.Atoi(this.Ctx.Input.Param(":article_id"))
-	uid := this.GetSession("UID").(int)
+	articleID, _ := strconv.Atoi(c.Ctx.Input.Param(":article_id"))
+	userID := c.GetSession("UID").(int)
 
 	// 收藏状态
-	count := models.ArticleCollectCount(article_id, uid)
+	count := models.ArticleCollectCount(articleID, userID)
 
 	var b bool
 	if count > 0 {
-		b = models.ArticleCollectDown(article_id, uid)
+		b = models.ArticleCollectDown(articleID, userID)
 	} else {
-		b = models.ArticleCollectUp(article_id, uid)
+		b = models.ArticleCollectUp(articleID, userID)
 	}
 
 	if !b {
-		this.ResponseJson(false, "操作失败")
+		c.ResponseJSON(false, "操作失败")
 	}
 
-	this.ResponseJson(true, "操作成功")
+	c.ResponseJSON(true, "操作成功")
 }
 
-// 删除文章
-func (this *UserOpController) ArticleDel() {
-	article_id, _ := strconv.Atoi(this.Ctx.Input.Param(":article_id"))
+// ArticleDel 删除文章
+func (c *UserOpController) ArticleDel() {
+	articleID, _ := strconv.Atoi(c.Ctx.Input.Param(":article_id"))
 
-	b := models.ArticleDel(article_id)
+	b := models.ArticleDel(articleID)
 	if !b {
-		this.ResponseJson(false, "操作失败")
+		c.ResponseJSON(false, "操作失败")
 	}
 
-	this.ResponseJson(true, "操作成功")
+	c.ResponseJSON(true, "操作成功")
 }

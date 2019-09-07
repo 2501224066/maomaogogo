@@ -19,9 +19,9 @@
                     <input type="hidden" name="editor">
                     <div class="form-group">
                         <label for="l4"><i class="fa fa-random fa-fw"></i>节点</label>
-                        <select name="node" class="form-control" id="l4">
+                        <select name="node_id" class="form-control" id="l4">
                             {{range .Node}}
-                            <option value="{{ .Name }}">{{ .Name }}</option>
+                            <option value="{{ .NodeID }}">{{ .Name }}</option>
                             {{end}}
                         </select>
                     </div>
