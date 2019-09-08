@@ -54,3 +54,6 @@ func ArticleCollectDown(articleID, userID int) bool {
 
 	return true
 }
+
+
+

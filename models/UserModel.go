@@ -106,3 +106,18 @@ func CheckLogin(email, password string) (bool, int) {
 
 	return true, user.UserID
 }
+
+// ArticleData 文章数据结构体
+type ArticleData struct {
+	SumReadNum    int
+	SumLikeNum    int
+	SumCollectNum int
+	SumCommentNum int
+}
+
+// AllArticleDataCount 用户所有文章数据统计
+func AllArticleDataCount(userID int) ArticleData {
+	var data ArticleData
+	O.Raw("SELECT sum(read_num) as sum_read_num, sum(like_num) as sum_like_num, sum(collect_num) as sum_collect_num,sum(comment_num) as sum_comment_num FROM article WHERE user_id = ?", userID).QueryRow(&data)
+	return data
+}

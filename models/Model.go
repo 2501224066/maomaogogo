@@ -26,6 +26,8 @@ type User struct {
 	QrImg     string
 	Sex       string
 	Birthday  time.Time
+	FollowNum int
+	FansNum   int
 	CreatedAt time.Time  `orm:"auto_now_add;type(datetime)"`
 	UpdatedAt time.Time  `orm:"auto_now;type(datetime)"`
 	Article   []*Article `orm:"reverse(many)"`
@@ -91,6 +93,15 @@ type Comment struct {
 	UpdatedAt time.Time `orm:"auto_now;type(datetime)"`
 }
 
+// UserFollow 用户关注表
+type UserFollow struct {
+	ID           int       `orm:"column(id);pk"`
+	UserID       int       `orm:"column(user_id)"`
+	FollowUserID int       `orm:"column(follow_user_id)"`
+	CreatedAt    time.Time `orm:"auto_now_add;type(datetime)"`
+	UpdatedAt    time.Time `orm:"auto_now;type(datetime)"`
+}
+
 func init() {
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	dbUser := beego.AppConfig.String("db::user")
@@ -112,7 +123,8 @@ func init() {
 		new(Article),
 		new(ArticleLike),
 		new(ArticleCollect),
-		new(Comment))
+		new(Comment),
+		new(UserFollow))
 
 	orm.Debug = true
 	O = orm.NewOrm()

@@ -5,8 +5,8 @@
                 <div class="row">
                     <div class="col-md-2" {{ if eq .LoginUser.UserID .UserInfo.UserID }} data-toggle="modal"
                         data-target=".bs-example-modal-sm" {{ end }}>
-                        <img {{ if eq .LoginUser.UserID .UserInfo.UserID }} data-toggle="tooltip" data-placement="bottom"
-                            title="点击更换头像" {{ end }} class="img-responsive border-radius-2px"
+                        <img {{ if eq .LoginUser.UserID .UserInfo.UserID }} data-toggle="tooltip"
+                            data-placement="bottom" title="点击更换头像" {{ end }} class="img-responsive border-radius-2px"
                             src="{{ .UserInfo.AvatarURL }}">
                     </div>
                     <div class="col-md-10">
@@ -20,30 +20,75 @@
                 <div class="row">
                     <div class="col-md-6" style="color: #999">
                         <span class="gray"><i class="fa fa-venus-mars fa-fw"></i>{{ .UserInfo.Sex }}</span>&nbsp;&nbsp;
-                        <span class="gray"><i class="fa fa-birthday-cake fa-fw"></i>{{ date .UserInfo.Birthday "Y-m-d" }}</span>
+                        <span class="gray"><i
+                                class="fa fa-birthday-cake fa-fw"></i>{{ date .UserInfo.Birthday "Y-m-d" }}</span>
                     </div>
-                    {{ if eq .LoginUser.UserID .UserInfo.UserID }}
-                    <div class="col-md-6 text-right"><a href="/user_edit">编辑个人资料</a></div>
-                    {{ end }}
+                    <div class="col-md-6 text-right">
+                        {{ if eq .LoginUser.UserID .UserInfo.UserID }}
+                        <a href="/user_edit">编辑个人资料</a>
+                        {{ else }}
+                        {{ if $.FollowStatus }}
+                        <button id="follow" class="btn btn-xs">&nbsp;取消关注&nbsp;<i class="fa fa-hand-spock-o fa-fw"></i>&nbsp;</button>
+                        {{ else }}
+                        <button id="follow" class="btn btn-primary btn-xs">&nbsp;关注&nbsp;<i class="fa fa-hand-spock-o fa-fw"></i>&nbsp;</button>
+                        {{ end }}
+                        {{ end }}
+                    </div>
                 </div>
             </div>
         </div>
         <div class="panel">
-            <div class="panel-heading" style="border-bottom: 1px solid #eee">
+            <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-12 text-center">
-                        <a class="gray hover-blue" href="#ta" aria-controls="ta" role="tab" data-toggle="tab">
-                            <strong>最新回复</strong>
+                    <div class="col-md-4 text-center">
+                        <h3>{{ .ArticleCount }}</h3>
+                        <a href="/user/{{ .UserInfo.UserID }}/article">
+                            <p><i class="fa fa-align-left fa-fw"></i>创作的文章</p>
+                        </a>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h3>{{ .ArticleCollectCount }}</h3>
+                        <a>
+                            <p><i class="fa fa-dropbox fa-fw"></i>收藏的文章</p>
+                        </a>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h3>0</h3>
+                        <a>
+                            <p><i class="fa fa-hand-scissors-o fa-fw"></i>关注的用户</p>
                         </a>
                     </div>
                 </div>
-
-            </div>
-            <div class="panel-body">
-                xxx
-            </div>
-            <div class="panel-footer">
-                <a class="gray">»&nbsp;更多...</a>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span>
+                            <span style="font-size: 1.2em">{{ .AllArticleDataCount.SumReadNum }}</span>&nbsp;
+                            <span style="color: #999">阅读<i class="fa fa-eye fa-fw"></i></span>
+                        </span>&nbsp;&nbsp;&nbsp;
+                        <span>
+                            <span style="font-size: 1.2em">{{ .AllArticleDataCount.SumLikeNum }}</span>&nbsp;
+                            <span style="color: #999">柠檬<i class="fa fa-lemon-o fa-fw"></i></span>
+                        </span>&nbsp;&nbsp;&nbsp;
+                        <span>
+                            <span style="font-size: 1.2em">{{ .AllArticleDataCount.SumCollectNum }}</span>&nbsp;
+                            <span style="color: #999">收藏<i class="fa fa-dropbox fa-fw"></i></span>
+                        </span>&nbsp;&nbsp;&nbsp;
+                        <span>
+                            <span style="font-size: 1.2em">{{ .AllArticleDataCount.SumCommentNum }}</span>&nbsp;
+                            <span style="color: #999">评论<i class="fa fa-comment-o fa-fw"></i></span>
+                        </span>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span>
+                            <span style="font-size: 1.2em">{{ .UserInfo.FansNum }}</span>&nbsp;
+                            <span style="color: #999">粉丝<i class="fa fa-handshake-o fa-fw"></i></span>
+                        </span>&nbsp;&nbsp;&nbsp;                      
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -74,30 +119,6 @@
                         <span class="label label-success">爱运动</span>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="panel">
-            <div class="panel-body" style="padding: 0;margin-bottom: -21px;">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <span class="badge">{{ .ArticleCount }}</span>
-                        <a href="/user/{{ .UserInfo.UserID }}/article" class="gray"><i
-                                class="fa fa-book fa-fw"></i>创建的文章</a>
-                    </li>
-                    <li class="list-group-item gray">
-                        <span class="badge">{{ .ArticleCollectCount }}</span>
-                        <a href="#" class="gray"><i class="fa fa-star fa-fw"></i>收藏的文章</a>
-                    </li>
-                    <li class="list-group-item gray">
-                        <span class="badge">14</span>
-                        <a href="#" class="gray"><i class="fa fa-gavel fa-fw"></i>举报反馈</a>
-                    </li>
-                    <li class="list-group-item gray">
-                        <span class="badge">14</span>
-                        <a href="#" class="gray"><i class="fa fa-magic fa-fw"></i>网站建议</a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
@@ -187,5 +208,28 @@
                 }
             })
         }
+    })
+
+    // 关注
+    $("#follow").click(function () {
+        $.ajax({
+            url: '/user_op/user_follow/{{ .UserInfo.UserID }}',
+            type: 'GET',
+            success: function (res) {
+                if (res.status) {
+                    // 调整关注按钮
+                    if ($('#follow').hasClass('btn-primary')) {
+                        $('#follow').removeClass("btn-primary");
+                        $('#follow').html('&nbsp;取消关注&nbsp;<i class="fa fa-hand-spock-o fa-fw"></i>&nbsp;')
+                    } else {
+                        $('#follow').addClass("btn-primary");
+                        $('#follow').html('&nbsp;关注&nbsp;<i class="fa fa-hand-spock-o fa-fw"></i>&nbsp;')
+                    }
+                    $("#alert").html('<div class="text-center alert alert-success" role="alert">' + tmp.responseJSON.msg + '</div>')
+                } else {
+                    $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + res.msg + '</div>')
+                }
+            }
+        })
     })
 </script>

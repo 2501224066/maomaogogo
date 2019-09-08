@@ -86,19 +86,13 @@ a.badge:hover {
 }
 
 .nav-input {
-    background: #f6f6f6;
-    width: 150%;
-    border: 1px solid #ebebeb;
-    transition: width .2s ease, background .3s ease;
+    border: 1px solid #eee;
+    border-radius: 5px;
 }
 
 .nav-input:focus {
-    box-shadow: none;
-    border: 1px solid #8590a6;
-}
-
-.navbar-form .form-control {
-    width: 300px;
+    box-shadow: 1px 1px 3px #ddd;
+    border: 1px solid #eee;
 }
 
 .nav .active {

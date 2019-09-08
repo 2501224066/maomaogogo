@@ -24,26 +24,22 @@
                 </button>
                 <a class="navbar-brand hidden-sm" href="/">MaomaoGogo</a>
             </div>
-            <div class="navbar-collapse collapse" role="navigation">
-                <ul class="nav navbar-nav">
-                    <li><a {{ if isActive .Path "/" }} class="active" {{ end }} href="/">首页</a></li>
-                    <li><a href="#">问答</a></li>
-                    <li><a href="#">知识</a></li>
-                    <li><a href="#">比赛</a></li>
-                </ul>
+            <div class="navbar-collapse collapse" role="navigation">               
                 <form class="navbar-form navbar-left hidden-sm hidden-xs">
                     <div class="form-group">
                         <input type="text" class="form-control nav-input" placeholder="杜兰特退役">
                     </div>
-                    <button type="submit" class="btn btn-primary" style="border: none">提问</button>
+                    <button type="submit" class="btn btn-primary" style="border: none">搜索</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     {{ if .LoginStatus }}
+                    <li><a {{ if isActive .Path "/" }} class="active" {{ end }} href="/">首页</a></li>
+                    <li><a {{ if isActive .Path "/article_create" }} class="active" {{ end }} href="/article_create">创作</a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" role="button" aria-expanded="true" aria-haspopup="true" href="#"
                             data-toggle="dropdown">{{ .LoginUser.Nickname }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/user_read"><i class="fa fa-user-circle-o fa-fw"></i>个人中心</a></li>
+                            <li><a href="/user_read/{{ .LoginUser.UserID }}"><i class="fa fa-user-circle-o fa-fw"></i>个人中心</a></li>
                             <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i>退出登录</a></li>
                         </ul>
                     </li>

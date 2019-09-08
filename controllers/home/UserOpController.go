@@ -74,3 +74,27 @@ func (c *UserOpController) ArticleDel() {
 
 	c.ResponseJSON(true, "操作成功")
 }
+
+// Follow 用户关注
+func (c *UserOpController) Follow() {
+	userID, _ := strconv.Atoi(c.Ctx.Input.Param(":user_id"))
+	if userID == 0 {
+		c.ResponseJSON(false, "操作失败")
+	}
+
+	// 关注状态
+	count := models.FollowCount(c.GetSession("UID").(int), userID)
+
+	var b bool
+	if count > 0 {
+		b = models.UserFollowDown(c.GetSession("UID").(int), userID)
+	} else {
+		b = models.UserFollowUp(c.GetSession("UID").(int), userID)
+	}
+
+	if !b {
+		c.ResponseJSON(false, "操作失败")
+	}
+
+	c.ResponseJSON(true, "操作成功")
+}
