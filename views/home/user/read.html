@@ -48,13 +48,13 @@
                     </div>
                     <div class="col-md-4 text-center">
                         <h3>{{ .ArticleCollectCount }}</h3>
-                        <a>
+                        <a href="/user/{{ .UserInfo.UserID }}/collect_article">
                             <p><i class="fa fa-dropbox fa-fw"></i>收藏的文章</p>
                         </a>
                     </div>
                     <div class="col-md-4 text-center">
-                        <h3>0</h3>
-                        <a>
+                        <h3>{{ .UserInfo.FollowNum }}</h3>
+                        <a href="/user/{{ .UserInfo.UserID }}/follow_user">
                             <p><i class="fa fa-hand-scissors-o fa-fw"></i>关注的用户</p>
                         </a>
                     </div>
@@ -85,7 +85,11 @@
                     <div class="col-md-12">
                         <span>
                             <span style="font-size: 1.2em">{{ .UserInfo.FansNum }}</span>&nbsp;
-                            <span style="color: #999">粉丝<i class="fa fa-handshake-o fa-fw"></i></span>
+                            <span style="color: #999">
+                                <a href='/user/{{ .UserInfo.UserID }}/fans'>
+                                    粉丝<i class="fa fa-handshake-o fa-fw"></i>
+                                </a>
+                            </span>
                         </span>&nbsp;&nbsp;&nbsp;                      
                     </div>
                 </div>
@@ -93,34 +97,7 @@
         </div>
     </div>
 
-
-    <div class="col-md-4">
-        <div class="panel">
-            <div class="panel-body">
-                <ol class="breadcrumb">
-                    <li><i class="fa fa-smile-o fa-fw"></i>他和他的朋友们</li>
-                </ol>
-                <div class="row" style="margin-bottom: 10px">
-                    <div class="col-md-4 text-center">
-                        <img src="/static/images/header.jpg" width="50px" height="50px" class="img-circle">
-                    </div>
-                    <div class="col-md-8">
-                        <span class="label label-primary">1996~2007</span>
-                        <span class="label label-info">鱼罐头</span>
-                        <span class="label label-warning">爱睡觉</span>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 10px">
-                    <div class="col-md-4 text-center">
-                        <img src="/static/images/header.jpg" width="50px" height="50px" class="img-circle">
-                    </div>
-                    <div class="col-md-8">
-                        <span class="label label-primary">1996~2007</span>
-                        <span class="label label-success">爱运动</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="col-md-4 hidden-sm hidden-xs">
     </div>
 </div>
 

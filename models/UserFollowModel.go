@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
 
@@ -70,4 +71,58 @@ func UserFollowDown(userID, followUserID int) bool {
 	}
 
 	return true
+}
+
+// FollowUserList 关注用户列表
+func FollowUserList(userID, p int) []User {
+	var userFollow []UserFollow
+	query := O.QueryTable(new(UserFollow)).Filter("user_id", userID)
+
+	if p != 0 {
+		pageNum, _ := beego.AppConfig.Int("page::num")
+		offset := pageNum * (p - 1)
+		query = query.Limit(pageNum, offset)
+	}
+
+	query.OrderBy("-created_at").All(&userFollow)
+
+	// 被关注人信息
+	var (
+		userFollowList []User
+		user           User
+	)
+	for _, v := range userFollow {
+		user.UserID = v.FollowUserID
+		O.Read(&user)
+		userFollowList = append(userFollowList, user)
+	}
+
+	return userFollowList
+}
+
+// FansList 粉丝列表
+func FansList(userID, p int) []User {
+	var userFollow []UserFollow
+	query := O.QueryTable(new(UserFollow)).Filter("follow_user_id", userID)
+
+	if p != 0 {
+		pageNum, _ := beego.AppConfig.Int("page::num")
+		offset := pageNum * (p - 1)
+		query = query.Limit(pageNum, offset)
+	}
+
+	query.OrderBy("-created_at").All(&userFollow)
+
+	// 粉丝信息
+	var (
+		FansList []User
+		user     User
+	)
+	for _, v := range userFollow {
+		user.UserID = v.UserID
+		O.Read(&user)
+		FansList = append(FansList, user)
+	}
+
+	return FansList
 }

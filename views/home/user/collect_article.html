@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-md-8" id="left">
+        <div class="panel">
+            <div class="panel-body" style="padding: 0;margin-bottom: -21px;">
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="ta">
+                        <ul class="list-group">
+                            {{ range .CollectArticleList }}
+                            <li class="list-group-item">
+                                <div style="font-size:16px;margin-bottom: 4px;">
+                                    <a class="gray" href="/article_read/{{ .ArticleID }}">{{ .Title }}</a>
+                                    {{ if eq $.LoginUser.UserID $.UserInfo.UserID}}
+                                    <span class="pull-right">
+                                        <button class="btn btn-xs" onclick="del_modal('{{ .ArticleID }}')">&nbsp;取消收藏&nbsp;<i class="fa fa-star-o fa-fw"></i></button>
+                                    </span>                            
+                                    {{ end }}
+                                </div>
+                                <div style="color: #999">
+                                    <span class="badge"><a href="/article_list/{{ .Node.NodeID }}" style="color:#666">{{ .Node.Name }}</a></span>
+                                    &nbsp;<span class="snow">•</span>&nbsp;
+                                    <span>{{ TimeInterval ( date .CreatedAt "Y-m-d H:i:s" ) }}</span>
+                                    &nbsp;<span class="snow">•</span>&nbsp;
+                                    <span></span>{{ .ReadNum }} 阅读</span>
+                                    &nbsp;<span class="snow">•</span>&nbsp;
+                                    <span>{{ .LikeNum }} 柠檬</span>
+                                </div>
+                            </li>
+                            {{ end }}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-6" style="line-height: 34px;color:#999">🌟&nbsp;共 {{ .Count }} 文章</div>
+                    <div class="col-md-6 text-right">
+                        <ul id="page" style="margin: 0"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 hidden-sm hidden-xs">
+        {{template "home/layout/self.html" .}}
+    </div>
+</div>
+
+<!--删除确认模态框start-->
+<span id="del_modal" data-toggle="modal" data-target=".bs-example-modal-sm"></span>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">🗑️ 警告</h4>
+            </div>
+            <div class="modal-body text-center">确定取消收藏！！！</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="del">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var router = window.location.href.substring(0, window.location.href.indexOf('?'));
+
+        $("#page").bootstrapPaginator({
+            currentPage: '{{ .PageNo }}',
+            totalPages: Math.ceil('{{ .Count }}' / '{{ .PageNum }}'),
+            bootstrapMajorVersion: 3,
+            size: "small",
+            onPageClicked: function (e, originalEvent, type, page) {
+                window.location.href = router + "?p=" + page
+            }
+        });
+    });
+
+    var uncollect_article_id = null;
+
+    function del_modal(article_id) {
+        uncollect_article_id = article_id;
+        $('#del_modal').trigger("click");
+    }
+
+    $("#del").click(function () {
+        $.ajax({
+            url: '/user_op/article_collect/' + uncollect_article_id,
+            type: 'GET',
+            success: function (res) {
+                if (res.status) {
+                    window.location.reload();
+                } else {
+                    $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + res.msg + '</div>')
+                }
+            }
+        })
+    })
+
+</script>

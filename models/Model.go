@@ -71,16 +71,20 @@ type Article struct {
 
 // ArticleLike 文章点赞表
 type ArticleLike struct {
-	ID        int `orm:"column(id);pk"`
-	ArticleID int `orm:"column(article_id)"`
-	UserID    int `orm:"column(user_id)"`
+	ID        int       `orm:"column(id);pk"`
+	ArticleID int       `orm:"column(article_id)"`
+	UserID    int       `orm:"column(user_id)"`
+	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
+	UpdatedAt time.Time `orm:"auto_now;type(datetime)"`
 }
 
 // ArticleCollect 文章收藏表
 type ArticleCollect struct {
-	ID        int `orm:"column(id);pk"`
-	ArticleID int `orm:"column(article_id)"`
-	UserID    int `orm:"column(user_id)"`
+	ID        int       `orm:"column(id);pk"`
+	ArticleID int       `orm:"column(article_id)"`
+	UserID    int       `orm:"column(user_id)"`
+	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
+	UpdatedAt time.Time `orm:"auto_now;type(datetime)"`
 }
 
 // Comment 评论表

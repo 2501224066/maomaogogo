@@ -1,6 +1,9 @@
 package models
 
-import "github.com/astaxie/beego/orm"
+import (
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
+)
 
 // ArticleCollectCount 收藏数量
 func ArticleCollectCount(articleID, userID int) int64 {
@@ -55,5 +58,29 @@ func ArticleCollectDown(articleID, userID int) bool {
 	return true
 }
 
+// CollectArticleList 用户收藏的文章
+func CollectArticleList(userID, p int) []Article {
+	var articleCollect []ArticleCollect
+	query := O.QueryTable(new(ArticleCollect)).Filter("user_id", userID)
 
+	if p != 0 {
+		pageNum, _ := beego.AppConfig.Int("page::num")
+		offset := pageNum * (p - 1)
+		query = query.Limit(pageNum, offset)
+	}
 
+	query.OrderBy("-created_at").All(&articleCollect)
+
+	// 文章信息
+	var (
+		collecArticleList []Article
+		article           Article
+	)
+	for _, v := range articleCollect {
+		article.ArticleID = v.ArticleID
+		O.Read(&article)
+		collecArticleList = append(collecArticleList, article)
+	}
+
+	return collecArticleList
+}

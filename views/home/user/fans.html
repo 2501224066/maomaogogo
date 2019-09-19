@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-md-8" id="left">
+        <div class="panel">
+            <div class="panel-body" style="padding: 0;margin-bottom: -21px;">
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="ta">
+                        <ul class="list-group">
+                            {{ range .FansList }}
+                            <li class="list-group-item">
+                                <div class="row" style="font-size:16px;margin-bottom: 4px;">
+                                    <div class="col-md-2">
+                                        <img src="{{ .AvatarURL }}" width="100%">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <a href="/user_read/{{ .UserID }}" style="color: #333">
+                                            <p>
+                                                <span>{{ .Nickname }}</span>
+                                                <span style="color: #999; font-size: 14px;">{{ .InShort }}</span>
+                                            </p>
+                                        </a>
+                                        <P style="font-size: 14px;">{{ .Introduce }}</P>
+                                    </div>
+                                </div>
+                            </li>
+                            {{ end }}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-6" style="line-height: 34px;color:#999">🌟&nbsp;共 {{ .Count }} 个粉丝</div>
+                    <div class="col-md-6 text-right">
+                        <ul id="page" style="margin: 0"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 hidden-sm hidden-xs">
+        {{template "home/layout/self.html" .}}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var router = window.location.href.substring(0, window.location.href.indexOf('?'));
+
+        $("#page").bootstrapPaginator({
+            currentPage: '{{ .PageNo }}',
+            totalPages: Math.ceil('{{ .Count }}' / '{{ .PageNum }}'),
+            bootstrapMajorVersion: 3,
+            size: "small",
+            onPageClicked: function (e, originalEvent, type, page) {
+                window.location.href = router + "?p=" + page
+            }
+        });
+    });
+</script>
