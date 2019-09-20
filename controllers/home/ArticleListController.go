@@ -11,6 +11,12 @@ type ArticleListController struct {
 	controllers.Controller
 }
 
+// IndexPage 网站入口
+func (c *ArticleListController) IndexPage() {
+	c.Data["ArticleList"] = models.ArticleList(0, 0, 1)
+	c.TplName = "home/index.html"
+}
+
 // Get ...
 func (c *ArticleListController) Get() {
 	// 当前节点

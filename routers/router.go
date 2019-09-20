@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	beego.Router("/", &home.IndexController{})
+	beego.Router("/", &home.ArticleListController{}, "get:IndexPage")
 	beego.Router("/404", &errors.ErrorController{}, "get:Error404")
 	beego.Router("/send_email/?:type", &home.SendEmailController{})
 	beego.Router("/upload", &home.UploadController{})
