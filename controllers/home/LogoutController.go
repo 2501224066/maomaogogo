@@ -1,12 +1,10 @@
 package home
 
-import (
-	"maomaogogo/controllers"
-)
+import "maomaogogo/controllers"
 
 // LogoutController 登出控制器
 type LogoutController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // Get ...

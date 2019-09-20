@@ -45,5 +45,5 @@ func NoticeList(userID, p int) []Notice {
 
 // NoticeAllRead 通知全部已读
 func NoticeAllRead(userID int) {
-	O.QueryTable(new(Notice)).Update(orm.Params{"read_status": 2})
+	O.QueryTable(new(Notice)).Filter("user_id", userID).Update(orm.Params{"read_status": 2})
 }

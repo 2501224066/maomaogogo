@@ -7,7 +7,7 @@ import (
 
 // UploadController 上传控制器
 type UploadController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // Post ...

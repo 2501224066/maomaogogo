@@ -8,7 +8,7 @@ import (
 
 // UserReadController 查看用户控制器
 type UserReadController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // Get ...

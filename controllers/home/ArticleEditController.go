@@ -8,7 +8,7 @@ import (
 
 // ArticleEditController 编辑文章控制器
 type ArticleEditController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // articleEditForm 表单结构体

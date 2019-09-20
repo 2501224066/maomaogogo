@@ -10,43 +10,44 @@ import (
 	"github.com/astaxie/beego/validation"
 )
 
-// BaseController 基础控制器
-type BaseController struct {
+// Controller 基础控制器
+type Controller struct {
 	beego.Controller
 }
 
-var (
-	// LoginStatus 登录状态
-	LoginStatus bool
-	// LoginUser 登录用户信息
-	LoginUser models.User
-)
-
 // Prepare 初始
-func (c *BaseController) Prepare() {
+func (c *Controller) Prepare() {
 	// 路径
 	c.Data["Path"] = c.Ctx.Request.RequestURI
 
 	// CSRF
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 
-	// 登录状态
+	// 登录信息
+	var (
+		LoginStatus       bool
+		LoginUser         models.User
+		UnreadNoticeCount int64
+	)
 	uid := c.GetSession("UID")
 	if uid != nil {
 		LoginStatus = true
 		LoginUser = models.UserRead(uid.(int))
+		UnreadNoticeCount = models.UnreadNoticeCount(LoginUser.UserID, 1)
 	} else {
 		LoginStatus = false
 	}
+
 	c.Data["LoginStatus"] = LoginStatus
 	c.Data["LoginUser"] = LoginUser
 	c.Data["PageNum"], _ = beego.AppConfig.Int("page::num")
+	c.Data["UnreadNoticeCount"] = UnreadNoticeCount
 
 	c.Layout = "home/layout/layout.html"
 }
 
 // ResponseJSON 返回JSON
-func (c *BaseController) ResponseJSON(isSuccess bool, msg string, data ...interface{}) {
+func (c *Controller) ResponseJSON(isSuccess bool, msg string, data ...interface{}) {
 	status := 0
 	if isSuccess {
 		status = 1
@@ -61,7 +62,7 @@ func (c *BaseController) ResponseJSON(isSuccess bool, msg string, data ...interf
 }
 
 // FormVerify 表单校验
-func (c *BaseController) FormVerify(input interface{}) {
+func (c *Controller) FormVerify(input interface{}) {
 	setVerifyMessage()
 
 	valid := validation.Validation{}

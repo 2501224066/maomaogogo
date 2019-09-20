@@ -8,7 +8,7 @@ import (
 
 // ArticleListController 文章列表结构体
 type ArticleListController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // Get ...

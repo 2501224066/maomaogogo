@@ -7,7 +7,7 @@ import (
 
 // LoginController 登录控制器
 type LoginController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // loginForm 登录表单结构体

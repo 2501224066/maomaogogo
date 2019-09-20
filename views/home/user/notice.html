@@ -9,7 +9,7 @@
                                 <li class="list-group-item">
                                     <div style="margin-bottom: 4px;">    
                                         {{ if eq .ReadStatus 1 }}
-                                        😲&nbsp;&nbsp;
+                                        <strong>NEW.</strong>&nbsp;
                                         {{ end }}
                                         {{ str2html .Content }}
                                         <span class="pull-right" style="color: #999">{{ TimeInterval ( date .CreatedAt "Y-m-d H:i:s" ) }}</span>                     

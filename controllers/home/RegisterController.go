@@ -11,7 +11,7 @@ import (
 
 // RegisterController 注册控制器
 type RegisterController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // registerForm 注册表单结构体

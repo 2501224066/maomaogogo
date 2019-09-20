@@ -7,7 +7,7 @@ import (
 
 // UserEditController 编辑用户控制器
 type UserEditController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // userEditForm 编辑用户表单结构体

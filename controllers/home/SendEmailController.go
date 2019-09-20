@@ -9,7 +9,7 @@ import (
 
 // SendEmailController 发送邮件控制器
 type SendEmailController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // Post ...

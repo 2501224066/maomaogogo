@@ -3,12 +3,13 @@ package home
 import (
 	"maomaogogo/controllers"
 	"maomaogogo/models"
+
 	"strconv"
 )
 
 // ArticleReadController 阅读文章控制器
 type ArticleReadController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // Get ...

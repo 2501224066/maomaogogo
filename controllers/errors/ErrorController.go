@@ -2,11 +2,13 @@ package errors
 
 import "maomaogogo/controllers"
 
+// ErrorController 错误控制器
 type ErrorController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
-func (this *ErrorController) Error404() {
-	this.Data["Content"] = "啊！怎么不见了..."
-	this.TplName = "error/404.html"
+// Error404 404错误
+func (c *ErrorController) Error404() {
+	c.Data["Content"] = "啊！怎么不见了..."
+	c.TplName = "error/404.html"
 }

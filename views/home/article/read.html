@@ -112,7 +112,7 @@
                     </div>
                     <input type="hidden" name="editor">
                     <button type="submit" class="btn btn-success btn-xs pull-right">
-                        道路畅通,开车 <i class="fa fa-car fa-fw"></i>
+                        &nbsp;🚀&nbsp;发布&nbsp;
                     </button>
                 </form>
             </div>
@@ -213,11 +213,13 @@
         user_name_len = user_name.length * 14
         str = '<span>@<a href="' + user_url + '"><input oninput="reply_save($(this))" style="border:none;padding:0;width:' + user_name_len + 'px" type="text" value="' + user_name + '"></a>&nbsp;<span>'
         if (editor.txt.html() == "<p><br></p>") {
-            editor.txt.html(str)
+            new_str = str
         } else {
-            c = editor.txt.html()
-            editor.txt.html(c + str);
+            new_str = editor.txt.html() + str
         }
+        editor.txt.clear()
+        editor.txt.html(new_str)
+        $('input[name="editor"]').val(editor.txt.html())
     }
 
     // 整体删除回复人名称  

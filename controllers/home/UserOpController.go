@@ -8,7 +8,7 @@ import (
 
 // UserOpController 用户操作控制器
 type UserOpController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // ArticleLike 文章点赞

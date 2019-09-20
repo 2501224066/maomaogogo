@@ -7,7 +7,7 @@ import (
 // CommentList 评论列表
 func CommentList(articleID int) interface{} {
 	var comment []*Comment
-	O.QueryTable(new(Comment)).Filter("article_id", articleID).RelatedSel().All(&comment)
+	O.QueryTable(new(Comment)).Filter("article_id", articleID).OrderBy("created_at").RelatedSel().All(&comment)
 	return comment
 }
 

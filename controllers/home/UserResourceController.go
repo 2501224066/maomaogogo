@@ -8,7 +8,7 @@ import (
 
 // UserResourceController 用户资源控制器
 type UserResourceController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // Article 用户文章

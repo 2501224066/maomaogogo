@@ -15,7 +15,7 @@ type articleCreateForm struct {
 
 // ArticleCreateController 文章控制器
 type ArticleCreateController struct {
-	controllers.BaseController
+	controllers.Controller
 }
 
 // Get ...
