@@ -106,6 +106,16 @@ type UserFollow struct {
 	UpdatedAt    time.Time `orm:"auto_now;type(datetime)"`
 }
 
+// Notice 通知表
+type Notice struct {
+	NoticeID   int `orm:"column(notice_id);pk"`
+	UserID     int `orm:"column(user_id)"`
+	Content    string
+	ReadStatus int
+	CreatedAt  time.Time `orm:"auto_now_add;type(datetime)"`
+	UpdatedAt  time.Time `orm:"auto_now;type(datetime)"`
+}
+
 func init() {
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	dbUser := beego.AppConfig.String("db::user")
@@ -128,8 +138,9 @@ func init() {
 		new(ArticleLike),
 		new(ArticleCollect),
 		new(Comment),
-		new(UserFollow))
+		new(UserFollow),
+		new(Notice))
 
-	orm.Debug = true
+	orm.Debug = false
 	O = orm.NewOrm()
 }

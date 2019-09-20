@@ -31,6 +31,7 @@ func init() {
 	beego.Router("/user/:user_id/collect_article", &home.UserResourceController{}, "get:CollectArticle")
 	beego.Router("/user/:user_id/follow_user", &home.UserResourceController{}, "get:FollowUser")
 	beego.Router("/user/:user_id/fans", &home.UserResourceController{}, "get:Fans")
+	beego.Router("/user/notice", &home.UserResourceController{}, "get:Notice")
 
 	beego.Router("/user_op/article_like/?:article_id", &home.UserOpController{}, "get:ArticleLike")
 	beego.Router("/user_op/article_collect/?:article_id", &home.UserOpController{}, "get:ArticleCollect")

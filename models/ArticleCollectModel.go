@@ -77,8 +77,7 @@ func CollectArticleList(userID, p int) []Article {
 		article           Article
 	)
 	for _, v := range articleCollect {
-		article.ArticleID = v.ArticleID
-		O.Read(&article)
+		O.QueryTable(new(Article)).Filter("article_id", v.ArticleID).RelatedSel().One(&article)
 		collecArticleList = append(collecArticleList, article)
 	}
 

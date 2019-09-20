@@ -32,9 +32,12 @@
                     <button type="submit" class="btn btn-primary" style="border: none">搜索</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                    {{ if .LoginStatus }}
                     <li><a {{ if isActive .Path "/" }} class="active" {{ end }} href="/">首页</a></li>
+                    {{ if .LoginStatus }}
                     <li><a {{ if isActive .Path "/article_create" }} class="active" {{ end }} href="/article_create">创作</a></li>
+                    <li><a {{ if isActive .Path "/user/notice" }} class="active" {{ end }} href="/user/notice">
+                        <i class="fa fa-bell fa-fw"></i>{{ .UnreadNoticeCount }}</a>
+                    </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" role="button" aria-expanded="true" aria-haspopup="true" href="#"
                             data-toggle="dropdown">{{ .LoginUser.Nickname }} <span class="caret"></span></a>

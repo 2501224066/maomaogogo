@@ -81,3 +81,24 @@ func (c *UserResourceController) Fans() {
 	c.Data["FansList"] = models.FansList(userID, p)
 	c.TplName = "home/user/fans.html"
 }
+
+// Notice 通知
+func (c *UserResourceController) Notice() {
+	// 当前页面
+	p, _ := strconv.Atoi(c.Input().Get("p"))
+	if p == 0 {
+		p = 1
+	}
+
+	userID := c.GetSession("UID").(int)
+	userInfo := models.UserRead(userID)
+	c.Data["UserInfo"] = userInfo
+	c.Data["PageNo"] = p
+	c.Data["Count"] = models.UnreadNoticeCount(userID, 0)
+	c.Data["NoticeList"] = models.NoticeList(userID, p)
+
+	// 通知全部已读
+	models.NoticeAllRead(userID)
+
+	c.TplName = "home/user/notice.html"
+}
