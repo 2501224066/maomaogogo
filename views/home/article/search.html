@@ -3,44 +3,14 @@
     <!--左侧start-->
     <div class="col-md-8 com-sm-12" id="left">
         <div class="panel">
-            <div class="panel-heading" style="background: #000; color:#fff">
-                {{ if gt .NowNodeId 0 }}
-                {{  range .Node }}
-                {{ if eq $.NowNodeId .NodeID }}
-                <div class="row">
-                    <div class="col-md-2">
-                        {{ if eq .Img "" }}
-                        <img src="/static/images/tu.png" width="100%">
-                        {{ else }}
-                        <img src="{{ .Img }}" width="100%">
-                        {{ end  }}
-                    </div>
-                    <div class="col-md-10">
-                        <p>
-                            <a href="/article_list">全部分享</a>
-                            &nbsp;›&nbsp;
-                            <strong>{{ .Name }}</strong>
-                        </p>
-                        <p>{{ .About }}</p>
-                    </div>
-                </div>
-                {{ end }}
-                {{ end }}
-                {{ else }}
-                <div>
-                    <p><i class="fa fa-terminal fa-fw"></i>全部节点</p>
-                </div>
-                <div>
-                    {{ range .Node }}
-                    <a href="/article_list/{{ .NodeID }}" class="badge">{{ .Name }}</a>&nbsp;&nbsp;
-                    {{ end }}
-                </div>
-                {{ end }}
+            <div class="panel-heading" style="background: #eee">
+                <span style="font-size:2em"><i class="fa fa-search fa-fw"></i>&nbsp;<span
+                        style="color: #ffcc66">{{ .Keyword}}</span>&nbsp;</span>的搜索结果
             </div>
             <div class="panel-body" style="margin-bottom: -31px;">
                 {{ range  .ArticleList}}
                 <div>
-                    <h4 style="font-weight: 600">
+                    <h4 class="article_title" style="font-weight: 600">
                         {{ .Title }}
                     </h4>
                     <div class="row" style="margin: 10px 0;">
@@ -67,7 +37,8 @@
                     </div>
                     <div class="row" style="color: #999">
                         <div class="col-md-12 hidden-xs">
-                            <span class="badge"><a href="/article_list/{{ .Node.NodeID }}" style="color:#666">{{ .Node.Name }}</a></span>
+                            <span class="badge"><a href="/article_list/{{ .Node.NodeID }}"
+                                    style="color:#666">{{ .Node.Name }}</a></span>
                             &nbsp;<span class="snow">•</span>&nbsp;
                             <span>{{ TimeInterval ( date .CreatedAt "Y-m-d H:i:s" ) }}</span>
                             &nbsp;<span class="snow">•</span>&nbsp;
@@ -104,7 +75,7 @@
 <script type="text/javascript">
     $(function () {
         var router = window.location.href.substring(0, window.location.href.indexOf('?'));
-        
+
         $("#page").bootstrapPaginator({
             currentPage: '{{ .PageNo }}',
             totalPages: Math.ceil('{{ .Count }}' / '{{ .PageNum }}'),
@@ -115,4 +86,16 @@
             }
         });
     });
+
+    // 搜索框插入关键字
+    $('#search_input').val('{{ .Keyword }}')
+
+    // 关键字上色
+    $(".article_title").each(function(){
+        str = $(this).text()
+        var reg=/{{ .Keyword }}/g;
+        str=str.replace(reg,'<span style="color:#ffcc66">{{ .Keyword }}</span>');
+        $(this).html(str)
+    });
+
 </script>

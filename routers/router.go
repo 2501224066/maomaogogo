@@ -26,6 +26,7 @@ func init() {
 	beego.Router("/article_edit/?:article_id", &home.ArticleEditController{})
 	beego.Router("/article_list/?:node_id", &home.ArticleListController{})
 	beego.Router("/article_read/?:article_id", &home.ArticleReadController{})
+	beego.Router("/article_search/?:keyword", &home.ArticleListController{}, "get:SearchArticle")
 
 	beego.Router("/user/:user_id/article", &home.UserResourceController{}, "get:Article")
 	beego.Router("/user/:user_id/collect_article", &home.UserResourceController{}, "get:CollectArticle")

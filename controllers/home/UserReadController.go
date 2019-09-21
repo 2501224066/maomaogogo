@@ -25,9 +25,11 @@ func (c *UserReadController) Get() {
 
 	// 关注状态
 	c.Data["FollowStatus"] = false
-	count := models.FollowCount(c.GetSession("UID").(int), userID)
-	if count > 0 {
-		c.Data["FollowStatus"] = true
+	if u := c.GetSession("UID"); u != nil {
+		count := models.FollowCount(c.GetSession("UID").(int), userID)
+		if count > 0 {
+			c.Data["FollowStatus"] = true
+		}
 	}
 
 	c.TplName = "home/user/read.html"

@@ -102,10 +102,15 @@ a.badge:hover {
     color: #333 !important;
 }
 
+.navbar-nav,
 .navbar-default .navbar-nav>.active>a,
 .navbar-default .navbar-nav>.active>a:focus,
 .navbar-default .navbar-nav>.active>a:hover {
     background: #fff;
+}
+
+.navbar-nav{
+    margin: 0 -15px;
 }
 
 /*下拉框美化*/

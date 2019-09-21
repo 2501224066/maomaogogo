@@ -25,12 +25,12 @@
                 <a class="navbar-brand hidden-sm" href="/">MaomaoGogo</a>
             </div>
             <div class="navbar-collapse collapse" role="navigation">               
-                <form class="navbar-form navbar-left hidden-sm hidden-xs">
+                <div class="navbar-form navbar-left hidden-sm hidden-xs">
                     <div class="form-group">
-                        <input type="text" class="form-control nav-input" placeholder="杜兰特退役">
+                        <input id="search_input" type="text" maxlength="12" class="form-control nav-input" placeholder="寻找你感兴趣的内容">
                     </div>
-                    <button type="submit" class="btn btn-primary" style="border: none">搜索</button>
-                </form>
+                    <button id="search" class="btn btn-primary" style="border: none">搜索</button>
+                </div>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a {{ if isActive .Path "/" }} class="active" {{ end }} href="/">首页</a></li>
                     {{ if .LoginStatus }}
@@ -94,4 +94,16 @@
         </div>
     </div>
 </body>
+
+<script type="text/javascript">
+    // 搜索
+    $('#search').click(function () {
+        var keyword = $("#search_input").val();
+        if(keyword){
+            window.location.href = "/article_search/"+keyword
+        }else{
+            $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + '搜索内容不得为空' + '</div>')
+        }
+    })
+</script>
 </html>

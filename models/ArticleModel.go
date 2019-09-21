@@ -167,3 +167,24 @@ func ArticleCommentNumUp(articleID int) {
 	article.CommentNum = article.CommentNum + 1
 	O.Update(&article, "comment_num")
 }
+
+// SearchArticleCount 搜索文章数量
+func SearchArticleCount(keyword string) int64 {
+	count, _ := O.QueryTable(new(Article)).Filter("title__icontains", keyword).Filter("status", 1).Count()
+	return count
+}
+
+// SearchArticleList 搜索文章列表
+func SearchArticleList(keyword string, p int) []Article {
+	var article []Article
+	query := O.QueryTable(new(Article)).Filter("title__icontains", keyword)
+
+	if p != 0 {
+		pageNum, _ := beego.AppConfig.Int("page::num")
+		offset := pageNum * (p - 1)
+		query = query.Limit(pageNum, offset)
+	}
+
+	query.Filter("status", 1).OrderBy("-created_at").RelatedSel().All(&article)
+	return article
+}

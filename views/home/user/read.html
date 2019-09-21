@@ -24,6 +24,7 @@
                                 class="fa fa-birthday-cake fa-fw"></i>{{ date .UserInfo.Birthday "Y-m-d" }}</span>
                     </div>
                     <div class="col-md-6 text-right">
+                        {{ if .LoginStatus }}
                         {{ if eq .LoginUser.UserID .UserInfo.UserID }}
                         <a href="/user_edit">编辑个人资料</a>
                         {{ else }}
@@ -31,6 +32,7 @@
                         <button id="follow" class="btn btn-xs">&nbsp;取消关注&nbsp;<i class="fa fa-hand-spock-o fa-fw"></i>&nbsp;</button>
                         {{ else }}
                         <button id="follow" class="btn btn-primary btn-xs">&nbsp;关注&nbsp;<i class="fa fa-hand-spock-o fa-fw"></i>&nbsp;</button>
+                        {{ end }}
                         {{ end }}
                         {{ end }}
                     </div>
