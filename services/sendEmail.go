@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"net/smtp"
 	"strings"
 
@@ -32,7 +31,6 @@ func SendEmail(to, subject, body, mailtype string) bool {
 	send_to := strings.Split(to, ";")
 	err := smtp.SendMail(host, auth, user, send_to, msg)
 	if err != nil {
-		fmt.Println(err)
 		return false
 	}
 	return true

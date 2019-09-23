@@ -1,7 +1,6 @@
 package home
 
 import (
-	"fmt"
 	"maomaogogo/controllers"
 )
 
@@ -14,7 +13,6 @@ type UploadController struct {
 func (c *UploadController) Post() {
 	f, h, err := c.GetFile("file")
 	if err != nil {
-		fmt.Println(err)
 		c.ResponseJSON(false, "上传失败")
 	}
 	defer f.Close()

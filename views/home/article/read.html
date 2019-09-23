@@ -29,7 +29,7 @@
                 <div>
                     <span style="color:#646464">标签：</span>
                     {{ range StrSplitForBlankSpace .Article.Tag }}
-                    <span class="badge">{{ . }}</span>
+                    <a href="/article_search/{{ . }}"><span class="badge">{{ . }}</span></a>
                     {{ end }}
                 </div>
                 <hr>

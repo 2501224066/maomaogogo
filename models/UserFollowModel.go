@@ -1,8 +1,6 @@
 package models
 
 import (
-	"fmt"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
@@ -10,8 +8,6 @@ import (
 // FollowCount 关注状态
 func FollowCount(userID, followUserID int) int64 {
 	query := O.QueryTable(new(UserFollow))
-	fmt.Println(userID)
-	fmt.Println(followUserID)
 	count, _ := query.Filter("user_id", userID).Filter("follow_user_id", followUserID).Count()
 	return count
 }

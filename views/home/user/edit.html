@@ -98,7 +98,7 @@
             if (tmp.responseJSON.status) {
                 $("#alert").html('<div class="text-center alert alert-success" role="alert">' + tmp.responseJSON.msg + '</div>')
                 window.setTimeout(function () {
-                    window.location.href = "/user_read"
+                    window.location.href = "/user_read/{{ .LoginUser.UserID }}"
                 }, 1000);
             } else {
                 $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + tmp.responseJSON.msg + '</div>')
