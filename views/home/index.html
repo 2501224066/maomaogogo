@@ -19,14 +19,14 @@
                         <div class="col-md-8 col-xs-8" style="padding-left: 0;padding-right: 0;">
                             <div style="font-size: 15px;line-height: 26px;">
                                 {{ .User.Nickname }}：{{ substr .FaceText 0 80 }}...
-                                <a href="/article_read/{{ .ArticleID }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
+                                <a href="/article_read/{{ .ArticleID }}"><span style="display: inline-block">阅读全文<i class="fa fa-angle-down fa-fw"></i></span></a>
                             </div>
                         </div>
                         {{ else }}
                         <div class="col-md-12 col-xs-12" style="padding-left: 0;">
                             <div style="font-size: 15px;line-height: 26px;">
                                 {{ .User.Nickname }}：{{ substr .FaceText 0 64 }}...
-                                <a href="/article_read/{{ .ArticleID }}">阅读全文<i class="fa fa-angle-down fa-fw"></i></a>
+                                <a href="/article_read/{{ .ArticleID }}"><span style="display: inline-block">阅读全文<i class="fa fa-angle-down fa-fw"></i></span></a>
                             </div>
                         </div>
                         {{ end }}
