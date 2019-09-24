@@ -128,6 +128,8 @@ function randomString(len = 30) {
 
 // 富文本配置
 function editorInit(editor) {
+    // base64插入图片
+    editor.customConfig.uploadImgShowBase64 = true
     // 菜单栏目
     editor.customConfig.menus = [
         'bold',
@@ -147,7 +149,7 @@ function editorInit(editor) {
     ]
     editor.customConfig.uploadImgServer = '/upload' // 上传url
     editor.customConfig.uploadFileName = 'file' // 上传图片name
-    editor.customConfig.uploadImgMaxLength = 1 // 单次最大上传数量
+    editor.customConfig.uploadImgMaxLength = 9 // 单次最大上传数量
     editor.customConfig.uploadImgMaxSize = 10 * 1024 * 1024 // 图片大小限制
     editor.customConfig.uploadImgParams = { // 上传参数补充
         _xsrf: XSRF
