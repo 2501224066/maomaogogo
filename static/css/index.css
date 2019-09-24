@@ -66,17 +66,6 @@ a.badge:hover {
     color: #000;
 }
 
-/*媒体查询*/
-@media screen and (max-width: 970px) {
-    .container {
-        padding: 0 15px;
-    }
-
-    #left {
-        padding-right: 15px !important;
-    }
-}
-
 /*导航栏美化*/
 .nav-self {
     background: #fff;
@@ -201,4 +190,39 @@ a.badge:hover {
     border-right: none;
     margin-bottom: 0;
     border-radius: 0 !important;
+}
+
+
+
+/*媒体查询*/
+@media screen and (max-width: 970px) {
+    body{
+        background: #eee;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    #left {
+        padding-right: 15px;
+    }
+
+    #warpper {
+        padding-top: 0;
+        background: #eee;
+    }
+
+    #left {
+        padding: 0;
+    }
+
+    .panel {
+        border-radius: 0px;
+        margin: 0;
+    }
+
+    #footer {
+        display: none;
+    }
 }
