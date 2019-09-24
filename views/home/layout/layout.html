@@ -99,11 +99,7 @@
     // 搜索
     $('#search').click(function () {
         var keyword = $("#search_input").val();
-        if(keyword){
-            window.location.href = "/article_search/"+keyword
-        }else{
-            $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + '搜索内容不得为空' + '</div>')
-        }
+        window.location.href = "/article_search/"+keyword  
     })
 </script>
 </html>

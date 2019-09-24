@@ -176,8 +176,15 @@ func SearchArticleCount(keyword string) int64 {
 
 // SearchArticleList 搜索文章列表
 func SearchArticleList(keyword string, p int) []Article {
+	// 去除两端空格
+	strings.TrimSpace(keyword)
+
 	var article []Article
-	query := O.QueryTable(new(Article)).Filter("title__icontains", keyword)
+	query := O.QueryTable(new(Article))
+
+	if keyword != "" {
+		query = query.Filter("title__icontains", keyword)
+	}
 
 	if p != 0 {
 		pageNum, _ := beego.AppConfig.Int("page::num")

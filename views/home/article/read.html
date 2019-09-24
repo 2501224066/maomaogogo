@@ -17,10 +17,12 @@
                     </a>
                     <span style="color: #999; font-size: 12px;">
                         创建于{{ date .Article.CreatedAt "Y-m-d H:i:s" }}
-                        &nbsp;·&nbsp;
-                        {{ .Article.ReadNum }} 阅读
-                        &nbsp;·&nbsp;
-                        {{ .Article.LikeNum }} 柠檬
+                        <span class="hidden-xs">
+                            &nbsp;·&nbsp;
+                            {{ .Article.ReadNum }} 阅读
+                            &nbsp;·&nbsp;
+                            {{ .Article.LikeNum }} 柠檬
+                        </span>
                     </span>
                 </div>
                 <div>
@@ -77,16 +79,17 @@
             <div class="panel-body" style="margin-bottom: -31px;">
                 {{ range .CommentList }}
                 <div class="row">
-                    <div class="col-md-1" style="padding-right: 0">
+                    <div class="col-md-1 col-xs-2" style="padding-right: 0">
                         <img src="{{ .User.AvatarURL }}" width="100%">
                     </div>
-                    <div class="col-md-11">
+                    <div class="col-md-11  col-xs-10">
                         <p>
                             <a href="/user_read/{{ .User.UserID }}"
                                 class="gray"><strong>{{ .User.Nickname }}</strong></a>&nbsp;&nbsp;
                             <span style="color: #999">{{ TimeInterval ( date .CreatedAt "Y-m-d H:i:s" ) }}</span>
                             {{ if ne $.LoginUser.UserID  .User.UserID }}
-                            <span onclick="reply_user('/user_read/{{ .User.UserID }}', '{{ .User.Nickname }}')" class="pull-right">
+                            <span onclick="reply_user('/user_read/{{ .User.UserID }}', '{{ .User.Nickname }}')"
+                                class="pull-right">
                                 <i class="fa fa-reply fa-fw gray"></i>
                             </span>
                             {{ end }}
