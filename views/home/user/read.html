@@ -1,40 +1,51 @@
 <div class="row">
-    <div class="col-md-8" id="left">
+    <div class="col-md-12" id="left">
         <div class="panel">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-2" {{ if eq .LoginUser.UserID .UserInfo.UserID }} data-toggle="modal"
-                        data-target=".bs-example-modal-sm" {{ end }}>
+                    <div class="col-md-2 col-xs-2" {{ if eq .LoginUser.UserID .UserInfo.UserID }}
+                        data-toggle="modal" data-target=".bs-example-modal-sm" {{ end }}>
                         <img {{ if eq .LoginUser.UserID .UserInfo.UserID }} data-toggle="tooltip"
                             data-placement="bottom" title="点击更换头像" {{ end }} class="img-responsive border-radius-2px"
                             src="{{ .UserInfo.AvatarURL }}">
                     </div>
                     <div class="col-md-10">
-                        <p>
-                            <span style="font-weight: 900; font-size: 26px">{{ .UserInfo.Nickname }}</span>&nbsp;&nbsp;
-                            <span style="font-size: 16px;"> {{ .UserInfo.InShort }}</span>
-                        </p>
-                        <p>{{ .UserInfo.Introduce }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6" style="color: #999">
-                        <span class="gray"><i class="fa fa-venus-mars fa-fw"></i>{{ .UserInfo.Sex }}</span>&nbsp;&nbsp;
-                        <span class="gray"><i
-                                class="fa fa-birthday-cake fa-fw"></i>{{ date .UserInfo.Birthday "Y-m-d" }}</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        {{ if .LoginStatus }}
-                        {{ if eq .LoginUser.UserID .UserInfo.UserID }}
-                        <a href="/user_edit">编辑个人资料</a>
-                        {{ else }}
-                        {{ if $.FollowStatus }}
-                        <button id="follow" class="btn btn-xs">&nbsp;取消关注&nbsp;<i class="fa fa-hand-spock-o fa-fw"></i>&nbsp;</button>
-                        {{ else }}
-                        <button id="follow" class="btn btn-primary btn-xs">&nbsp;关注&nbsp;<i class="fa fa-hand-spock-o fa-fw"></i>&nbsp;</button>
-                        {{ end }}
-                        {{ end }}
-                        {{ end }}
+                        <div>
+                            <p style="font-weight: 900; font-size: 26px">{{ .UserInfo.Nickname }}</p>
+                        </div>
+                        <div>
+                            <p style="color:#999"><i style="color:#000"
+                                    class="fa fa-bookmark fa-fw"></i>{{ .UserInfo.InShort }}</p>
+                        </div>
+                        <div>
+                            <p style="color:#999"><i style="color:#000"
+                                    class="fa fa-circle-o-notch fa-fw"></i>{{ .UserInfo.Introduce }}</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p style="color:#999"><i style="color:#000"
+                                        class="fa fa-unlink fa-fw"></i>{{ .UserInfo.Sex }}</p>
+                            </div>
+                            <div class="col-md-12" style="color: #999">
+                                <p style="color:#999"><i style="color:#000"
+                                        class="fa fa-birthday-cake fa-fw"></i>{{ date .UserInfo.Birthday "Y-m-d" }}</p>
+                            </div>
+                            <div class="col-md-4 col-md-offset-4">
+                                {{ if .LoginStatus }}
+                                {{ if eq .LoginUser.UserID .UserInfo.UserID }}
+                                <a href="/user_edit">编辑个人资料</a>
+                                {{ else }}
+                                {{ if $.FollowStatus }}
+                                <button id="follow" class="btn btn-xs">&nbsp;取消关注&nbsp;<i
+                                        class="fa fa-hand-spock-o fa-fw"></i>&nbsp;</button>
+                                {{ else }}
+                                <button id="follow" class="btn btn-primary btn-xs">&nbsp;关注&nbsp;<i
+                                        class="fa fa-hand-spock-o fa-fw"></i>&nbsp;</button>
+                                {{ end }}
+                                {{ end }}
+                                {{ end }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,19 +53,19 @@
         <div class="panel">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-4 text-center">
+                    <div class="col-md-4 col-xs-4 text-center">
                         <h3>{{ .ArticleCount }}</h3>
                         <a href="/user/{{ .UserInfo.UserID }}/article">
                             <p><i class="fa fa-align-left fa-fw"></i>创作的文章</p>
                         </a>
                     </div>
-                    <div class="col-md-4 text-center">
+                    <div class="col-md-4 col-xs-4 text-center">
                         <h3>{{ .ArticleCollectCount }}</h3>
                         <a href="/user/{{ .UserInfo.UserID }}/collect_article">
                             <p><i class="fa fa-dropbox fa-fw"></i>收藏的文章</p>
                         </a>
                     </div>
-                    <div class="col-md-4 text-center">
+                    <div class="col-md-4 col-xs-4 text-center">
                         <h3>{{ .UserInfo.FollowNum }}</h3>
                         <a href="/user/{{ .UserInfo.UserID }}/follow_user">
                             <p><i class="fa fa-hand-scissors-o fa-fw"></i>关注的用户</p>
@@ -92,14 +103,11 @@
                                     粉丝<i class="fa fa-handshake-o fa-fw"></i>
                                 </a>
                             </span>
-                        </span>&nbsp;&nbsp;&nbsp;                      
+                        </span>&nbsp;&nbsp;&nbsp;
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-md-4 hidden-sm hidden-xs">
     </div>
 </div>
 

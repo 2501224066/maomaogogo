@@ -4,7 +4,7 @@
             <div class="panel-body">
                 <ol class="breadcrumb">
                     <li><a href="/">主页</a></li>
-                    <li><a href="/user_read">个人中心</a></li>
+                    <li><a href="/user_read/{{ .LoginUser.UserID }}">个人中心</a></li>
                     <li>编辑个人资料</li>
                 </ol>
                 <form action="/user_edit" method="POST">
