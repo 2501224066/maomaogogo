@@ -19,8 +19,7 @@ func UserRead(userID int) User {
 
 // UserInsert 添加用户
 func UserInsert(nickname, email, password string) bool {
-	var systemSetting SystemSetting
-	O.QueryTable("system_setting").Filter("key", "default_avatar_url").One(&systemSetting, "value")
+	systemSetting := SystemSettingRead("default_avatar_url")
 	avatarURL := systemSetting.Value
 
 	local, _ := time.LoadLocation("Local")

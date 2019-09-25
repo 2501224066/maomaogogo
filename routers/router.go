@@ -40,4 +40,7 @@ func init() {
 	beego.Router("/user_op/user_follow/?:user_id", &home.UserOpController{}, "get:Follow")
 
 	beego.Router("/comment/?:article_id", &home.CommentController{})
+
+	beego.Router("/about/?:key", &home.AboutController{})
+
 }
