@@ -21,7 +21,7 @@ func StrSplitForBlankSpace(str string) []string {
 // TimeInterval 时间间隔
 func TimeInterval(t string) string {
 	timeLayout := "2006-01-02 15:04:05"
-	loc, _ := time.LoadLocation("Local")
+	loc, _ := time.LoadLocation("Asia/Shanghai")
 	theTime, _ := time.ParseInLocation(timeLayout, t, loc)
 	var (
 		putC = theTime.Unix()

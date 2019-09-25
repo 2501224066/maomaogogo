@@ -36,13 +36,13 @@ func (c *CommentController) Post() {
 	// 向文章主人发通知
 	article, _ := models.ArticleRead(articleID)
 	user := models.UserRead(userID)
-	models.AddNotice(article.User.UserID, "<a class='gray' href='/user_read/"+strconv.Itoa(user.UserID)+"'>"+user.Nickname+"</a>"+"在你的文章<a class='gray' href='/article_read/"+strconv.Itoa(article.ArticleID)+"'>"+article.Title+"</a>下发布了新评论")
+	models.AddNotice(article.User.UserID, "<a class='gray' href='/user_read/"+strconv.Itoa(user.UserID)+"'>"+user.Nickname+"</a>"+"在您的文章<a class='gray' href='/article_read/"+strconv.Itoa(article.ArticleID)+"'>"+article.Title+"</a>下发布了新评论")
 
 	// 向@的人发送通知
 	aUserIDArr := AnalysisCommentContent(input.Content)
 	for _, v := range aUserIDArr {
 		aUserID, _ := strconv.Atoi(v)
-		models.AddNotice(aUserID, "<a class='gray' href='/user_read/"+strconv.Itoa(user.UserID)+"'>"+user.Nickname+"</a>"+"在文章<a class='gray' href='/article_read/"+strconv.Itoa(article.ArticleID)+"'>"+article.Title+"</a>的评论中 @ 了你")
+		models.AddNotice(aUserID, "<a class='gray' href='/user_read/"+strconv.Itoa(user.UserID)+"'>"+user.Nickname+"</a>"+"在文章<a class='gray' href='/article_read/"+strconv.Itoa(article.ArticleID)+"'>"+article.Title+"</a>的评论中 @ 了您")
 	}
 
 	c.ResponseJSON(true, "发布成功")

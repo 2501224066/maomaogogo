@@ -47,7 +47,7 @@
                         {{ else }}
                         <button id="collect" class="btn btn-sm"><i class="fa fa-star fa-fw"></i>收藏</button>
                         {{ end }}
-                        <button class="btn btn-sm"><i class="fa fa-paper-plane fa-fw"></i>分享</button>
+                        <!--<button class="btn btn-sm"><i class="fa fa-paper-plane fa-fw"></i>分享</button>-->
                         <button class="btn btn-sm" data-toggle="modal" data-target=".bs-example-modal-sm"><i
                                 class="fa fa-qrcode"></i> 打赏</button>
                         <button class="btn btn-sm">
@@ -57,8 +57,7 @@
                                     <i class="fa fa-ellipsis-h"></i>
                                 </span>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="#">举报</a></li>
-                                    <li><a href="#">不感兴趣</a></li>
+                                    <li><a id="report">举报</a></li>
                                 </ul>
                             </div>
                         </button>
@@ -179,6 +178,21 @@
                     } else {
                         $('#collect').addClass("btn-primary");
                     }
+                } else {
+                    $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + res.msg + '</div>')
+                }
+            }
+        })
+    })
+
+    // 举报
+    $("#report").click(function () {
+        $.ajax({
+            url: '/user_op/article_report/{{ .Article.ArticleID }}',
+            type: 'GET',
+            success: function (res) {
+                if (res.status) {
+                    $("#alert").html('<div class="text-center alert alert-success" role="alert">' + res.msg + '</div>')
                 } else {
                     $("#alert").html('<div class="text-center alert alert-danger" role="alert">' + res.msg + '</div>')
                 }

@@ -64,6 +64,7 @@ type Article struct {
 	LikeNum    int
 	CollectNum int
 	CommentNum int
+	ReportNum  int
 	Status     int
 	CreatedAt  time.Time `orm:"auto_now_add;type(datetime)"`
 	UpdatedAt  time.Time `orm:"auto_now;type(datetime)"`

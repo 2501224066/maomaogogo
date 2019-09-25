@@ -63,6 +63,19 @@ func (c *UserOpController) ArticleCollect() {
 	c.ResponseJSON(true, "操作成功")
 }
 
+// ArticleReport 文章举报
+func (c *UserOpController) ArticleReport() {
+	if u := c.GetSession("UID"); u == nil {
+		c.ResponseJSON(false, "未登录禁止操作")
+	}
+
+	articleID, _ := strconv.Atoi(c.Ctx.Input.Param(":article_id"))
+	reportNum := models.ArticleReportUp(articleID)
+	models.ArticleReportBan(reportNum, articleID)
+
+	c.ResponseJSON(true, "已接到您的举报，我们会尽快处理！")
+}
+
 // ArticleDel 删除文章
 func (c *UserOpController) ArticleDel() {
 	articleID, _ := strconv.Atoi(c.Ctx.Input.Param(":article_id"))

@@ -2,6 +2,7 @@ package models
 
 import (
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/astaxie/beego"
@@ -194,4 +195,26 @@ func SearchArticleList(keyword string, p int) []Article {
 
 	query.Filter("status", 1).OrderBy("-created_at").RelatedSel().All(&article)
 	return article
+}
+
+// ArticleReportUp 举报量增加
+func ArticleReportUp(articleID int) int {
+	article, _ := ArticleRead(articleID)
+	article.ReportNum = article.ReportNum + 1
+	O.Update(&article, "report_num")
+	return article.ReportNum
+}
+
+// ArticleReportBan 达到举报数据量封禁文章
+func ArticleReportBan(reportNum, articleID int) {
+	reportBanNum, _ := beego.AppConfig.Int("article::report_ban")
+	if reportNum >= reportBanNum {
+		article, _ := ArticleRead(articleID)
+		article.Status = 2
+		_, err := O.Update(&article, "status")
+		if err == nil {
+			AddNotice(article.User.UserID, "您的文章<a class='gray' href='/article_read/"+strconv.Itoa(article.ArticleID)+"'>"+article.Title+"</a>收到多次举报，现已封禁此文章")
+		}
+
+	}
 }
