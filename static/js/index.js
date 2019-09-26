@@ -128,6 +128,8 @@ function randomString(len = 30) {
 
 // 富文本配置
 function editorInit(editor) {
+    // 隐藏“网络图片”tab
+    editor.customConfig.showLinkImg = false
     // base64插入图片
     editor.customConfig.uploadImgShowBase64 = true
     // 菜单栏目
@@ -154,9 +156,36 @@ function editorInit(editor) {
     editor.customConfig.uploadImgParams = { // 上传参数补充
         _xsrf: XSRF
     }
+    button_submit_text = ""
     editor.customConfig.uploadImgHooks = {
+        before: function (xhr, editor, files) {
+            button_submit_text= $('button[type="submit"]').text()
+            $('button[type="submit"]').text('图片上传中,稍加等待...')
+            $('button[type="submit"]').attr("disabled", "true")
+        },
+        success: function (xhr, editor, result) {  
+            $("#alert").html('<div class="text-center alert alert-success" role="alert">上传完成</div>')
+            $('button[type="submit"]').text(button_submit_text)
+            $('button[type="submit"]').removeAttr("disabled")
+        },
+        fail: function (xhr, editor, result) {   
+            $("#alert").html('<div class="text-center alert alert-danger" role="alert">上传失败</div>')       
+            $('button[type="submit"]').text(button_submit_text)
+            $('button[type="submit"]').removeAttr("disabled")
+        },
+        error: function (xhr, editor) {    
+            $("#alert").html('<div class="text-center alert alert-danger" role="alert">上传出错</div>')       
+            $('button[type="submit"]').text(button_submit_text)
+            $('button[type="submit"]').removeAttr("disabled")    
+        },
+        timeout: function (xhr, editor) {
+            $("#alert").html('<div class="text-center alert alert-danger" role="alert">上传超时</div>')       
+            $('button[type="submit"]').text(button_submit_text)
+            $('button[type="submit"]').removeAttr("disabled")
+        },    
         customInsert: function (insertImg, result) {  // 返回值设置
-            insertImg(result.data.path)
+            var url = result.data.path
+            insertImg(url)
         }
     }
     editor.customConfig.onchange = function (html) { // 内容填充
