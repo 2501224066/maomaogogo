@@ -19,7 +19,7 @@ const (
 	// SecretKey ...
 	secretKey = "UnrhYre8Gg6y2oOwD_dI8J3GIvrB_5_oIqEmbzyP"
 	// url 外链网址
-	url = "http://pybbjrzdu.bkt.clouddn.com"
+	url = "http://qiniu.unclear.top"
 )
 
 // UploadController 上传控制器
